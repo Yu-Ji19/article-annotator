@@ -3,11 +3,6 @@ import Container from "react-bootstrap/Container"
 import Annotation from "./Annotation"
 
 class AnnotationList extends Component {
-    state = {
-        name: "John",
-        content: "i like this sentence because it's good"
-    }
-
     render() {
         return (
             <Container>
