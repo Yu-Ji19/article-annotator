@@ -1,24 +1,25 @@
 import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
+import Button from "react-bootstrap/Button"
+
 import Annotation from "./Annotation"
 
 class AnnotationList extends Component {
-    state = {
-        name: "John",
-        content: "i like this sentence because it's good"
-    }
+	state = {
 
-    render() {
-        return (
-            <Container>
-                <Annotation />
-                <Annotation />
-                <Annotation />
-                <Annotation />
-                <Annotation />
-            </Container>
-        );
-    }
+	}
+
+	addAnnotation
+
+
+
+	render() {
+		return (
+			<Container>
+
+			</Container>
+		);
+	}
 }
 
 export default AnnotationList

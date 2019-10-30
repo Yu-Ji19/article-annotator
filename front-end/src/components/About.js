@@ -1,29 +1,17 @@
-import React, { Component, Fragment } from "react"
-import URLList from "./URLList"
+import React, { Component } from "react"
+import Container from "react-bootstrap/Container"
 
+const hostname = process.env.HOSTNAME || "127.0.0.1:8080";
 
 class About extends Component {
-  state = {
-    urls: []
-  }
-
-  componentDidMount() {
-    // Yu Ji fixed the call back and state setting
-    fetch('http://backend-jiyu2.cloudapps.unc.edu/api/workspace/0').then((res) => {
-      res.json().then((json)=>{
-        this.setState({urls: json});
-      });
-    });
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <h3>This is a stand-in for actual GET functionality.</h3>
-        <URLList urls={this.state.urls} />
-      </Fragment>
-    )
-  }
+	render() {
+		return (
+			<Container>
+				<h3>This is no longer a stand-in for actual GET functionality.</h3>
+				<p>Actual informational content will go here (at some point).</p>
+			</Container>
+		)
+	}
 }
 
 export default About
