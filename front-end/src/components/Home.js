@@ -29,7 +29,7 @@ class Home extends Component {
 			},
 			body: JSON.stringify({
 				date: "outside of time",
-				originalUrl: this.state.value
+				original_url: this.state.value
 			})
 		}).then(
 			function (response) {

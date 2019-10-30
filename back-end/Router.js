@@ -23,7 +23,7 @@ Router.get("/api/get-all-annotation", (req, res) => {
 /*
 req.body = {
 	date: String,
-	originalUrl: String,
+	original_url: String,
 }
 */
 Router.post('/api/create', (req, res) => {
