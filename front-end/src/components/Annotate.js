@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
-import Button from "react-bootstrap/Button"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
 
 import Collaborators from './Collaborators'
 import Share from './Share'
@@ -9,7 +10,8 @@ import AnnotationList from './AnnotationList'
 
 class Annotate extends Component {
   state = {
-    annotateOn: true
+    annotateOn: true,
+    legacy: false,
   }
 
   handleClick(e) {
@@ -20,44 +22,25 @@ class Annotate extends Component {
     }
   }
 
-
   render() {
     return (
       <Container>
-        <div style={{ position: 'absolute', left: '10px' }}>
-          <div>
+        <Row>
+          <Col xs={8}>
             <Share />
-            <br></br>
-          </div>
-
-          <div style={{ width: '65%', borderStyle: 'solid', borderWidth: 'thin' }}>
-            <Website />
-          </div>
-        </div>
-
-
-        <div style={{ position: 'absolute', right: '0px' }}>
-          <div>
-            <h1>Collaborators</h1>
+          </Col>
+          <Col xs={4}>
             <Collaborators />
-            <br></br>
-          </div>
-
-
-          <Button
-            variant="secondary"
-            onClick={(e) => this.handleClick()}
-          >
-            Annotate On/Off
-              </Button>
-
-          <div >
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={8}>
+            <Website />
+          </Col>
+          <Col xs={4}>
             <AnnotationList />
-          </div>
-
-
-        </div>
-
+          </Col>
+        </Row>
       </Container>
     )
   }
