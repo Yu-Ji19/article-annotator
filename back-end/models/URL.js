@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 let URL = new Schema({
-    url: {
-        type: String
-    }
+	url: {
+		type: String
+	}
 })
 
 

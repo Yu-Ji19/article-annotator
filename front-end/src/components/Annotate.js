@@ -9,41 +9,41 @@ import Website from './Website'
 import AnnotationList from './AnnotationList'
 
 class Annotate extends Component {
-  state = {
-    annotateOn: true,
-    legacy: false,
-  }
+	state = {
+		annotateOn: true,
+		legacy: false,
+	}
 
-  handleClick(e) {
-    if (this.state.annotateOn === true) {
-      this.setState({ annotateOn: false })
-    } else {
-      this.setState({ annotateOn: true })
-    }
-  }
+	handleClick(e) {
+		if (this.state.annotateOn === true) {
+			this.setState({ annotateOn: false })
+		} else {
+			this.setState({ annotateOn: true })
+		}
+	}
 
-  render() {
-    return (
-      <Container>
-        <Row>
-          <Col xs={8}>
-            <Share />
-          </Col>
-          <Col xs={4}>
-            <Collaborators />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
-            <Website />
-          </Col>
-          <Col xs={4}>
-            <AnnotationList />
-          </Col>
-        </Row>
-      </Container>
-    )
-  }
+	render() {
+		return (
+			<Container>
+				<Row>
+					<Col xs={8}>
+						<Share />
+					</Col>
+					<Col xs={4}>
+						<Collaborators />
+					</Col>
+				</Row>
+				<Row>
+					<Col xs={8}>
+						<Website />
+					</Col>
+					<Col xs={4}>
+						<AnnotationList />
+					</Col>
+				</Row>
+			</Container>
+		)
+	}
 }
 
 export default Annotate

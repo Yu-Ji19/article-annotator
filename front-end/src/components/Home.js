@@ -4,6 +4,8 @@ import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
+const hostname = process.env.HOSTNAME || "127.0.0.1:8080";
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +20,7 @@ class Home extends Component {
   }
 
   handleSubmit(e) {
-    fetch('http://backend-jiyu2.cloudapps.unc.edu/', {
+    fetch(hostname + '/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

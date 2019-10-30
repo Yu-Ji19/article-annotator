@@ -7,20 +7,20 @@ import Annotate from './components/Annotate';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <Router>
-        <div className="App">
-          <Navigation />
-          <Switch>
-            <Route path="/annotate" exact component = {Annotate}/>
-            <Route path="/about" exact component = {About}/>
-            <Route path="/" exact component = {Home}/>
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
+	render() {
+		return (
+			<Router>
+				<div className="App">
+					<Navigation />
+					<Switch>
+						<Route path="/annotate" exact component={Annotate} />
+						<Route path="/about" exact component={About} />
+						<Route path="/" exact component={Home} />
+					</Switch>
+				</div>
+			</Router>
+		);
+	}
 }
 
 export default App;
