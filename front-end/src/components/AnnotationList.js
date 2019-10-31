@@ -6,17 +6,29 @@ import Annotation from "./Annotation"
 
 class AnnotationList extends Component {
 	state = {
-
+		annotations: [
+			<Annotation finished={true}/>,
+			<Annotation finished={true}/>,
+			<Annotation finished={true}/>
+		]
 	}
 
-	addAnnotation
-
-
+	createAnnotation(){
+		this.setState({
+			annotations: [...this.state.annotations, <Annotation finished={false}/>]
+		})
+	}
 
 	render() {
 		return (
 			<Container>
-
+				<Button
+					variant="secondary"
+					onClick={(e) => this.createAnnotation()}
+				>
+					Create Annotation
+				</Button>
+				{this.state.annotations.map((annotation) => (annotation))}
 			</Container>
 		);
 	}

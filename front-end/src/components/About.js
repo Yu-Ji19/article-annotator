@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
 
-const hostname = process.env.HOSTNAME || "127.0.0.1:8080";
-
 class About extends Component {
 	render() {
 		return (
