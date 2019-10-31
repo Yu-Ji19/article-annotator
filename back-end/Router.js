@@ -25,6 +25,12 @@ req.body = {
 	date: String,
 	original_url: String,
 }
+res.body = {
+	url_id: String, hostname/uuid
+	date: String, same as req.body
+	original_url: String, same as req.body
+	content: String, parsed content of the webpage
+}
 */
 Router.post('/api/create', (req, res) => {
 	console.log("try to create workspace");
@@ -33,8 +39,6 @@ Router.post('/api/create', (req, res) => {
 
 	//scrape the original webpage
 	var content = "";
-
-
 	var body = req.body;
 	console.log(req.body);
 	body.url_id = HOSTNAME + id;
@@ -53,6 +57,11 @@ Router.post('/api/create', (req, res) => {
 });
 
 // GET WORKSPACE
+/*
+res.body = {
+	same as above
+}
+*/
 Router.get("/api/workspace/:id", (req, res) => {
 	const url_id = HOSTNAME + req.params.id;
 	console.log("try to get workspace: " + url_id);
@@ -78,6 +87,9 @@ req.body = {
 	follows all properties defined in models/Annotation.js
 	Note: url_id should be the UUID without hostname(only randomly generated string)
 }
+res.body = {
+	messages
+}
 */
 Router.post("/api/annotation/insert", (req, res) => {
 	console.log(req.body);
@@ -95,12 +107,13 @@ Router.post("/api/annotation/insert", (req, res) => {
 
 // GET THE LIST OF ANNOTATION FOR A WORKSPACE
 /* 
-req.body = {
-	url_id: String
+res.body = {
+	[Annotation1, Annotation2, ...] if found
+	message if not found
 }
 */
-Router.post("/api/annotation/all", (req, res) => {
-	const url_id = req.body.url_id;
+Router.get("/api/annotation/all/:id", (req, res) => {
+	const url_id = req.params.id;
 	console.log(url_id);
 	Annotation.find({ url_id }, (err, annotations) => {
 		if (err) {
@@ -120,12 +133,16 @@ Router.post("/api/annotation/all", (req, res) => {
 
 // GET THE LIST OF COLLABORATORS
 /* 
-req.body = {
-	url_id: String
+res.body = {
+	{
+		collaborator1: frequency,
+		collaborator2: frequency,
+		...
+	}
 }
 */
-Router.post("/api/collaborators", (req, res) => {
-	const url_id = req.body.url_id;
+Router.get("/api/collaborators/:id", (req, res) => {
+	const url_id = req.params.id;
 	Annotation.find({ url_id }, (err, annotations) => {
 		if (err) {
 			console.log("error when accessing database");
