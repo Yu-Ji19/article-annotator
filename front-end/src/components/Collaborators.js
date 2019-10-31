@@ -5,6 +5,7 @@ import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
 // Yu Ji put firstTime into state
+const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
 
 class Collaborators extends Component {
 
@@ -24,6 +25,9 @@ class Collaborators extends Component {
 
 	}
 
+	
+
+
 	handleSubmit(e) {
 		let currentName = this.state.name
 		this.setState(previousState => ({
@@ -33,8 +37,28 @@ class Collaborators extends Component {
 
 	}
 
-	render() {
+	getCollaborators(){
+		fetch(hostname + '/api/collaborators', {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		}).then(
+			function (response) {
+				console.log(response);
+				this.setState({namesArray: response});
+	
+			}
+		);
 
+	}
+
+
+
+
+	render() {
+		this.getCollaborators();
 		let listItems = this.state.namesArray.map((data) =>
 			<li key={data}>{data}</li>
 		);
