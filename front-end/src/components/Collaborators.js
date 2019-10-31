@@ -13,7 +13,7 @@ class Collaborators extends Component {
 		super(props);
 		this.state = {
 			name: '',
-			namesArray: ['Jacob THOMAS', 'john', 'tyler'],
+			namesArray: [],
 			firstTime: true
 		};
 		this.handleChange = this.handleChange.bind(this);
@@ -22,11 +22,7 @@ class Collaborators extends Component {
 
 	handleChange(e) {
 		this.setState({ name: e.target.value })
-
 	}
-
-	
-
 
 	handleSubmit(e) {
 		let currentName = this.state.name
@@ -53,7 +49,6 @@ class Collaborators extends Component {
 		);
 
 	}
-
 
 
 

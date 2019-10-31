@@ -32,7 +32,7 @@ Router.post('/api/create', (req, res) => {
 	console.log("generated uuid: " + id);
 
 	//scrape the original webpage
-	var content = "";
+	var content = Scraper.scrape(req.body.original_url);
 
 
 	var body = req.body;
