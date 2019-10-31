@@ -89,6 +89,33 @@ class Collaborators extends Component {
 
 				</Container>
 			)
+		}else{
+			return (
+				<Container>
+					<InputGroup className="mb-3">
+						<FormControl
+							placeholder="Enter Name To Annotate"
+							value={this.state.name}
+							onChange={this.handleChange}
+							aria-label="Website URL"
+							aria-describedby="submitURL"
+						/>
+						<InputGroup.Append>
+							<Button
+								variant="secondary"
+								onClick={(e) => this.handleSubmit()}
+							>
+								Submit
+							</Button>
+						</InputGroup.Append>
+					</InputGroup>
+					<ul>
+						{listItems}
+					</ul>
+
+				</Container>
+			)
+
 		}
 
 	}
