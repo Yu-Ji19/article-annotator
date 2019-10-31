@@ -31,9 +31,11 @@ class Home extends Component {
 				date: "outside of time",
 				original_url: this.state.value
 			})
-		}).then(
-			(response) => response.json().then(data => {
-				console.log(data)
+		}).then((response) => response.json().then(data => {
+				console.log(data);
+
+				//change route to url_id from response
+				window.location.pathname = data.url_id.substr(50);
 			})
 		);
 	}
