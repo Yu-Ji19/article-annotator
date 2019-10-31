@@ -65,24 +65,6 @@ class Collaborators extends Component {
 
 				</Container>
 			)
-		} else {
-			return (
-				<Container>
-					<div style={{ width: 300, overflow: 'auto', height: 100 }}>
-						<ul>
-							{listItems}
-							<li>Jacob</li>
-							<li>Hugh</li>
-							<li>Yu</li>
-							<li>Todd</li>
-							<li>Steve</li>
-							<li>Jeff</li>
-						</ul>
-					</div>
-
-				</Container>
-
-			)
 		}
 
 	}
