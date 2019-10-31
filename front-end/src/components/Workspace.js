@@ -9,9 +9,13 @@ import Website from './Website'
 import AnnotationList from './AnnotationList'
 
 class Workspace extends Component {
-	state = {
-		annotateOn: true,
-		legacy: false,
+	constructor(props) {
+		super(props);
+		this.state = {
+			annotateOn: true,
+			legacy: false,
+			id: this.props.match.params.id
+		}
 	}
 
 	handleClick(e) {

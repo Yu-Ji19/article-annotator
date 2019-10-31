@@ -13,8 +13,8 @@ class App extends Component {
 				<div className="App">
 					<Navigation />
 					<Switch>
-						<Route path="/workspace" exact component={Workspace} />
 						<Route path="/about" exact component={About} />
+						<Route path="/:id" exact component={Workspace} />
 						<Route path="/" exact component={Home} />
 					</Switch>
 				</div>

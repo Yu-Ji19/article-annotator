@@ -32,9 +32,9 @@ class Home extends Component {
 				original_url: this.state.value
 			})
 		}).then(
-			function (response) {
-				console.log(response);
-			}
+			(response) => response.json().then(data => {
+				console.log(data)
+			})
 		);
 	}
 
