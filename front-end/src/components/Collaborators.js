@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import Container from "react-bootstrap/Container"
 import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
@@ -59,13 +59,14 @@ class Collaborators extends Component {
 
 	render() {
 		this.getCollaborators();
+
 		let listItems = this.state.namesArray.map((data) =>
 			<li key={data}>{data}</li>
 		);
 
-		if (this.state.firstTime) {
-			return (
-				<Container>
+
+		const text = this.state.firstTime ?
+		<Fragment>
 					<InputGroup className="mb-3">
 						<FormControl
 							placeholder="Enter Name To Annotate"
@@ -86,37 +87,24 @@ class Collaborators extends Component {
 					<ul>
 						{listItems}
 					</ul>
+				</Fragment>
 
-				</Container>
-			)
-		}else{
+				:
+
+				<Fragment>
+						<ul>
+							{listItems}
+						</ul>
+				</Fragment>
+
+		
 			return (
 				<Container>
-					<InputGroup className="mb-3">
-						<FormControl
-							placeholder="Enter Name To Annotate"
-							value={this.state.name}
-							onChange={this.handleChange}
-							aria-label="Website URL"
-							aria-describedby="submitURL"
-						/>
-						<InputGroup.Append>
-							<Button
-								variant="secondary"
-								onClick={(e) => this.handleSubmit()}
-							>
-								Submit
-							</Button>
-						</InputGroup.Append>
-					</InputGroup>
-					<ul>
-						{listItems}
-					</ul>
-
+					{text}
 				</Container>
+				
 			)
-
-		}
+		
 
 	}
 }
