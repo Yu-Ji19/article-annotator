@@ -1,10 +1,11 @@
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import Container from "react-bootstrap/Container"
 import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
 // Yu Ji put firstTime into state
+const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
 
 class Collaborators extends Component {
 
@@ -24,6 +25,9 @@ class Collaborators extends Component {
 
 	}
 
+	
+
+
 	handleSubmit(e) {
 		let currentName = this.state.name
 		this.setState(previousState => ({
@@ -33,15 +37,36 @@ class Collaborators extends Component {
 
 	}
 
+	getCollaborators(){
+		fetch(hostname + '/api/collaborators', {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		}).then(
+			function (response) {
+				console.log(response);
+				this.setState({namesArray: response});
+	
+			}
+		);
+
+	}
+
+
+
+
 	render() {
+		this.getCollaborators();
 
 		let listItems = this.state.namesArray.map((data) =>
 			<li key={data}>{data}</li>
 		);
 
-		if (this.state.firstTime) {
-			return (
-				<Container>
+
+		const text = this.state.firstTime ?
+		<Fragment>
 					<InputGroup className="mb-3">
 						<FormControl
 							placeholder="Enter Name To Annotate"
@@ -62,28 +87,24 @@ class Collaborators extends Component {
 					<ul>
 						{listItems}
 					</ul>
+				</Fragment>
 
-				</Container>
-			)
-		} else {
-			return (
-				<Container>
-					<div style={{ width: 300, overflow: 'auto', height: 100 }}>
+				:
+
+				<Fragment>
 						<ul>
 							{listItems}
-							<li>Jacob</li>
-							<li>Hugh</li>
-							<li>Yu</li>
-							<li>Todd</li>
-							<li>Steve</li>
-							<li>Jeff</li>
 						</ul>
-					</div>
+				</Fragment>
 
+		
+			return (
+				<Container>
+					{text}
 				</Container>
-
+				
 			)
-		}
+		
 
 	}
 }
