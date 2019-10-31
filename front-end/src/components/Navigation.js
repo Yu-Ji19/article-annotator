@@ -23,7 +23,7 @@ class Navigation extends Component {
               <NavDropdown.Item eventKey="4.3">eManual</NavDropdown.Item>
             </NavDropdown>
 
-            <Nav.Link href="/annotate">Annotate</Nav.Link>
+            <Nav.Link href="/workspace">Annotate</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
