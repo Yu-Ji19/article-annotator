@@ -25,9 +25,6 @@ class Collaborators extends Component {
 
 	}
 
-	
-
-
 	handleSubmit(e) {
 		let currentName = this.state.name
 		this.setState(previousState => ({
@@ -37,7 +34,7 @@ class Collaborators extends Component {
 
 	}
 
-	getCollaborators(){
+	getCollaborators() {
 		fetch(hostname + '/api/collaborators', {
 			method: 'GET',
 			headers: {
@@ -47,15 +44,10 @@ class Collaborators extends Component {
 		}).then(
 			function (response) {
 				console.log(response);
-				this.setState({namesArray: response});
-	
+				//this.setState({ namesArray: response });
 			}
 		);
-
 	}
-
-
-
 
 	render() {
 		this.getCollaborators();
@@ -64,47 +56,44 @@ class Collaborators extends Component {
 			<li key={data}>{data}</li>
 		);
 
-
 		const text = this.state.firstTime ?
-		<Fragment>
-					<InputGroup className="mb-3">
-						<FormControl
-							placeholder="Enter Name To Annotate"
-							value={this.state.name}
-							onChange={this.handleChange}
-							aria-label="Website URL"
-							aria-describedby="submitURL"
-						/>
-						<InputGroup.Append>
-							<Button
-								variant="secondary"
-								onClick={(e) => this.handleSubmit()}
-							>
-								Submit
+			<Fragment>
+				<InputGroup className="mb-3">
+					<FormControl
+						placeholder="Enter Name To Annotate"
+						value={this.state.name}
+						onChange={this.handleChange}
+						aria-label="Website URL"
+						aria-describedby="submitURL"
+					/>
+					<InputGroup.Append>
+						<Button
+							variant="secondary"
+							onClick={(e) => this.handleSubmit()}
+						>
+							Submit
 							</Button>
-						</InputGroup.Append>
-					</InputGroup>
-					<ul>
-						{listItems}
-					</ul>
-				</Fragment>
+					</InputGroup.Append>
+				</InputGroup>
+				<ul>
+					{listItems}
+				</ul>
+			</Fragment>
 
-				:
+			:
 
-				<Fragment>
-						<ul>
-							{listItems}
-						</ul>
-				</Fragment>
+			<Fragment>
+				<ul>
+					{listItems}
+				</ul>
+			</Fragment>
 
-		
-			return (
-				<Container>
-					{text}
-				</Container>
-				
-			)
-		
+		return (
+			<Container>
+				{text}
+			</Container>
+
+		)
 
 	}
 }
