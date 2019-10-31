@@ -13,7 +13,7 @@ class Collaborators extends Component {
 		super(props);
 		this.state = {
 			name: '',
-			namesArray: [],
+			namesArray: ['Jacob THOMAS', 'john', 'tyler'],
 			firstTime: true
 		};
 		this.handleChange = this.handleChange.bind(this);
@@ -74,6 +74,7 @@ class Collaborators extends Component {
 							onChange={this.handleChange}
 							aria-label="Website URL"
 							aria-describedby="submitURL"
+							maxLength = "30"
 						/>
 						<InputGroup.Append>
 							<Button
@@ -84,17 +85,17 @@ class Collaborators extends Component {
 							</Button>
 						</InputGroup.Append>
 					</InputGroup>
-					<ul>
+					<ol>
 						{listItems}
-					</ul>
+					</ol>
 				</Fragment>
 
 				:
 
 				<Fragment>
-						<ul>
+						<ol>
 							{listItems}
-						</ul>
+						</ol>
 				</Fragment>
 
 		
