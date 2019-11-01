@@ -8,10 +8,34 @@ import Share from './Share'
 import Website from './Website'
 import AnnotationList from './AnnotationList'
 
-class Annotate extends Component {
-	state = {
-		annotateOn: true,
-		legacy: false,
+const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
+
+class Workspace extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			id: this.props.match.params.id,
+			date: null,
+			original_url: null
+		}
+	}
+
+	componentDidMount() {
+		fetch(hostname + '/api/workspace/' + this.state.id, {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		}).then((response) => response.json().then(data => {
+			console.log(data);
+			this.setState({
+				id: this.state.id,
+				date: data.date,
+				original_url: data.original_url
+			});
+		})
+		);
 	}
 
 	handleClick(e) {
@@ -25,6 +49,7 @@ class Annotate extends Component {
 	render() {
 		return (
 			<Container>
+				<h1>{this.state.original_url}</h1>
 				<Row>
 					<Col xs={8}>
 						<Share />
@@ -38,7 +63,7 @@ class Annotate extends Component {
 						<Website />
 					</Col>
 					<Col xs={4}>
-						<AnnotationList />
+						<AnnotationList id={this.state.id}/>
 					</Col>
 				</Row>
 			</Container>
@@ -46,4 +71,4 @@ class Annotate extends Component {
 	}
 }
 
-export default Annotate
+export default Workspace
