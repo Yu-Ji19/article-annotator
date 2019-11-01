@@ -12,50 +12,52 @@ class Collaborators extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			id: this.props.Cid,
 			name: '',
 			namesArray: [],
+			namesObject: {},
 			firstTime: true
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
+	
 
 	handleChange(e) {
 		this.setState({ name: e.target.value })
-
 	}
 
 	handleSubmit(e) {
-		let currentName = this.state.name
-		this.setState(previousState => ({
-			namesArray: [...previousState.namesArray, currentName],
-			firstTime: false
-		}));
+		this.props.addCollabName(this.state.name)
+
 
 	}
+	makeCollabList(){
+		let list = this.state.namesArray.map((data) =>
+					<li key={data}>{data[0]} {data[1]} </li>,
+				);
+		return list;
+	}
 
-	getCollaborators() {
-		return;
-		fetch(hostname + '/api/collaborators', {
+	componentWillMount() {
+		fetch(hostname + '/api/collaborators/' + this.state.id, {
 			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}
-		}).then(
-			function (response) {
-				console.log(response);
-				//this.setState({ namesArray: response });
-			}
+		}).then((response) => response.json().then(data => {
+			console.log(data);
+			this.setState({
+				//returns an array of [key, value] pairs
+				namesArray: Object.entries(data)	
+			});
+		})
 		);
 	}
 
 	render() {
-		this.getCollaborators();
-
-		let listItems = this.state.namesArray.map((data) =>
-			<li key={data}>{data}</li>
-		);
+		let listItems = this.makeCollabList();
 
 		const text = this.state.firstTime ?
 			<Fragment>
@@ -76,17 +78,17 @@ class Collaborators extends Component {
 							</Button>
 					</InputGroup.Append>
 				</InputGroup>
-				<ul>
+				<ol>
 					{listItems}
-				</ul>
+				</ol>
 			</Fragment>
 
 			:
 
 			<Fragment>
-				<ul>
+				<ol>
 					{listItems}
-				</ul>
+				</ol>
 			</Fragment>
 
 		return (

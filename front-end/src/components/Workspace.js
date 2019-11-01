@@ -16,7 +16,8 @@ class Workspace extends Component {
 		this.state = {
 			id: this.props.match.params.id,
 			date: null,
-			original_url: null
+			original_url: null,
+			collab_name: null,
 		}
 	}
 
@@ -46,6 +47,10 @@ class Workspace extends Component {
 		}
 	}
 
+	addCollabName(name){
+		this.setState({collab_name: name})	
+	}
+
 	render() {
 		return (
 			<Container>
@@ -55,7 +60,8 @@ class Workspace extends Component {
 						<Share />
 					</Col>
 					<Col xs={4}>
-						<Collaborators />
+						<Collaborators Cid={this.state.id}
+						 addCollabName={(name) => this.addCollabName(name)}/>
 					</Col>
 				</Row>
 				<Row>
@@ -63,7 +69,7 @@ class Workspace extends Component {
 						<Website />
 					</Col>
 					<Col xs={4}>
-						<AnnotationList id={this.state.id}/>
+						<AnnotationList id={this.state.id} name={this.state.collab_name}/>
 					</Col>
 				</Row>
 			</Container>

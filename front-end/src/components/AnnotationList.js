@@ -12,15 +12,12 @@ class AnnotationList extends Component {
 	}
 
 	componentDidMount() {
-		fetch(hostname + '/api/annotation/all', {
-			method: 'POST',
+		fetch(hostname + '/api/annotation/all/' + this.props.id, {
+			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({
-				url_id: this.props.id
-			})
 		}).then((response) => response.json().then(data => {
 			console.log(data);
 			this.setState({
@@ -35,13 +32,13 @@ class AnnotationList extends Component {
 			annotations: [...this.state.annotations, {
 				id: this.props.id,
 				key: "temporary",
-				name: "Mysterio",
+				name: this.props.name,
 				content: "",
 				finished: false
 			}]
 		})
 	}
-
+	
 	render() {
 		return (
 			<Container>
