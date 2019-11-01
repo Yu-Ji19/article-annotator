@@ -9,7 +9,6 @@ import Website from './Website'
 import AnnotationList from './AnnotationList'
 
 const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
-var temp = ''
 
 class Workspace extends Component {
 	constructor(props) {

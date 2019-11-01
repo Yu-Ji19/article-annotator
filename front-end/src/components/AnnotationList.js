@@ -8,7 +8,7 @@ const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
 
 class AnnotationList extends Component {
 	state = {
-		annotations: [],
+		annotations: []
 	}
 
 	componentDidMount() {
@@ -40,7 +40,6 @@ class AnnotationList extends Component {
 	}
 	
 	render() {
-		console.log(this.props.name)
 		return (
 			<Container>
 				<Button

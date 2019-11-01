@@ -32,6 +32,12 @@ class Collaborators extends Component {
 
 
 	}
+	makeCollabList(){
+		let list = this.state.namesArray.map((data) =>
+					<li key={data}>{data[0]} {data[1]} </li>,
+				);
+		return list;
+	}
 
 	componentWillMount() {
 		fetch(hostname + '/api/collaborators/' + this.state.id, {
@@ -43,17 +49,15 @@ class Collaborators extends Component {
 		}).then((response) => response.json().then(data => {
 			console.log(data);
 			this.setState({
-				namesArray: Object.keys(data),
-				
+				//returns an array of [key, value] pairs
+				namesArray: Object.entries(data)	
 			});
 		})
 		);
 	}
 
 	render() {
-		let listItems = this.state.namesArray.map((data) =>
-			<li key={data}>{data}</li>
-		);
+		let listItems = this.makeCollabList();
 
 		const text = this.state.firstTime ?
 			<Fragment>
