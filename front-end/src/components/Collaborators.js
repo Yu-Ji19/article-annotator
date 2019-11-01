@@ -12,98 +12,50 @@ class Collaborators extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			id: this.props.Cid,
 			name: '',
 			namesArray: [],
+			namesObject: {},
 			firstTime: true
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
+	
 
 	handleChange(e) {
 		this.setState({ name: e.target.value })
 	}
 
 	handleSubmit(e) {
-		let currentName = this.state.name
-		this.setState(previousState => ({
-			namesArray: [...previousState.namesArray, currentName],
-			firstTime: false
-		}));
+		this.props.addCollabName(this.state.name)
+
 
 	}
 
-	getCollaborators() {
-		return;
-		fetch(hostname + '/api/collaborators', {
+	componentWillMount() {
+		fetch(hostname + '/api/collaborators/' + this.state.id, {
 			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}
-		}).then(
-			function (response) {
-				console.log(response);
-				//this.setState({ namesArray: response });
-			}
+		}).then((response) => response.json().then(data => {
+			console.log(data);
+			this.setState({
+				namesArray: Object.keys(data),
+				
+			});
+		})
 		);
 	}
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 3e6da86c54e3ea6b94b91b73fbc6658ffdc28056
 	render() {
-		this.getCollaborators();
-
 		let listItems = this.state.namesArray.map((data) =>
 			<li key={data}>{data}</li>
 		);
 
 		const text = this.state.firstTime ?
-<<<<<<< HEAD
-		<Fragment>
-					<InputGroup className="mb-3">
-						<FormControl
-							placeholder="Enter Name To Annotate"
-							value={this.state.name}
-							onChange={this.handleChange}
-							aria-label="Website URL"
-							aria-describedby="submitURL"
-							maxLength = "30"
-						/>
-						<InputGroup.Append>
-							<Button
-								variant="secondary"
-								onClick={(e) => this.handleSubmit()}
-							>
-								Submit
-							</Button>
-						</InputGroup.Append>
-					</InputGroup>
-					<ol>
-						{listItems}
-					</ol>
-				</Fragment>
-
-				:
-
-				<Fragment>
-						<ol>
-							{listItems}
-						</ol>
-				</Fragment>
-
-		
-			return (
-				<Container>
-					{text}
-				</Container>
-				
-			)
-		
-=======
 			<Fragment>
 				<InputGroup className="mb-3">
 					<FormControl
@@ -122,17 +74,17 @@ class Collaborators extends Component {
 							</Button>
 					</InputGroup.Append>
 				</InputGroup>
-				<ul>
+				<ol>
 					{listItems}
-				</ul>
+				</ol>
 			</Fragment>
 
 			:
 
 			<Fragment>
-				<ul>
+				<ol>
 					{listItems}
-				</ul>
+				</ol>
 			</Fragment>
 
 		return (
@@ -141,7 +93,6 @@ class Collaborators extends Component {
 			</Container>
 
 		)
->>>>>>> 3e6da86c54e3ea6b94b91b73fbc6658ffdc28056
 
 	}
 }

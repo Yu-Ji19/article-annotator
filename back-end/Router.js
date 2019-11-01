@@ -38,13 +38,7 @@ Router.post('/api/create', (req, res) => {
 	console.log("generated uuid: " + id);
 
 	//scrape the original webpage
-<<<<<<< HEAD
-	var content = Scraper.scrape(req.body.original_url);
-
-
-=======
 	var content = "";
->>>>>>> 3e6da86c54e3ea6b94b91b73fbc6658ffdc28056
 	var body = req.body;
 	console.log(req.body);
 	body.url_id = HOSTNAME + id;
