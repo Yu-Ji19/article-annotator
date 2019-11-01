@@ -4,18 +4,41 @@ import Button from "react-bootstrap/Button"
 
 import Annotation from "./Annotation"
 
+const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
+
 class AnnotationList extends Component {
 	state = {
-		annotations: [
-			<Annotation finished={true}/>,
-			<Annotation finished={true}/>,
-			<Annotation finished={true}/>
-		]
+		annotations: []
 	}
 
-	createAnnotation(){
+	componentDidMount() {
+		fetch(hostname + '/api/annotation/all', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				url_id: this.props.id
+			})
+		}).then((response) => response.json().then(data => {
+			console.log(data);
+			this.setState({
+				annotations: data.map(v => ({...v, finished: true}))
+			});
+		})
+		);
+	}
+
+	createAnnotation() {
 		this.setState({
-			annotations: [...this.state.annotations, <Annotation finished={false}/>]
+			annotations: [...this.state.annotations, {
+				id: this.props.id,
+				key: "temporary",
+				name: "Mysterio",
+				content: "",
+				finished: false
+			}]
 		})
 	}
 
@@ -28,7 +51,15 @@ class AnnotationList extends Component {
 				>
 					Create Annotation
 				</Button>
-				{this.state.annotations.map((annotation) => (annotation))}
+				{this.state.annotations.map((annotation) => 
+					<Annotation 
+						id={this.props.id}
+						key={annotation._id}
+						name={annotation.name}
+						content={annotation.content}
+						finished={annotation.finished}
+					/>
+				)}
 			</Container>
 		);
 	}

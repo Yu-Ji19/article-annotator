@@ -63,7 +63,7 @@ class Workspace extends Component {
 						<Website />
 					</Col>
 					<Col xs={4}>
-						<AnnotationList />
+						<AnnotationList id={this.state.id}/>
 					</Col>
 				</Row>
 			</Container>

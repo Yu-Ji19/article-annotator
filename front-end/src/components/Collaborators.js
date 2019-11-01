@@ -35,6 +35,7 @@ class Collaborators extends Component {
 	}
 
 	getCollaborators() {
+		return;
 		fetch(hostname + '/api/collaborators', {
 			method: 'GET',
 			headers: {
