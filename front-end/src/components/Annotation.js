@@ -3,17 +3,20 @@ import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
+const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
+
 class Annotation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: "John",
-			content: "i like this sentence because it's good",
+			name: props.name,
+			content: props.content,
 			finished: props.finished
 		}
 
 		//this.handleChange = this.handleChange.bind(this);
 	}
+
 
 	handleChange(e) {
 		this.setState({
@@ -24,10 +27,25 @@ class Annotation extends Component {
 	}
 
 	submitAnnotation() {
-		this.setState({
-			name: this.state.name,
-			content: this.state.content,
-			finished: true
+
+		fetch(hostname + '/api/annotation/insert', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				url_id: this.props.id,
+				name: this.state.name,
+				date: 'now',
+				content: this.state.content
+			})
+		}).then((response) => {
+			this.setState({
+				name: this.state.name,
+				content: this.state.content,
+				finished: true
+			})
 		});
 	}
 

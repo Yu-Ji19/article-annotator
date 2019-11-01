@@ -33,7 +33,8 @@ class Collaborators extends Component {
 
 	}
 
-	getCollaborators(){
+	getCollaborators() {
+		return;
 		fetch(hostname + '/api/collaborators', {
 			method: 'GET',
 			headers: {
@@ -43,15 +44,16 @@ class Collaborators extends Component {
 		}).then(
 			function (response) {
 				console.log(response);
-				this.setState({namesArray: response});
-	
+				//this.setState({ namesArray: response });
 			}
 		);
-
 	}
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3e6da86c54e3ea6b94b91b73fbc6658ffdc28056
 	render() {
 		this.getCollaborators();
 
@@ -59,8 +61,8 @@ class Collaborators extends Component {
 			<li key={data}>{data}</li>
 		);
 
-
 		const text = this.state.firstTime ?
+<<<<<<< HEAD
 		<Fragment>
 					<InputGroup className="mb-3">
 						<FormControl
@@ -101,6 +103,45 @@ class Collaborators extends Component {
 				
 			)
 		
+=======
+			<Fragment>
+				<InputGroup className="mb-3">
+					<FormControl
+						placeholder="Enter Name To Annotate"
+						value={this.state.name}
+						onChange={this.handleChange}
+						aria-label="Website URL"
+						aria-describedby="submitURL"
+					/>
+					<InputGroup.Append>
+						<Button
+							variant="secondary"
+							onClick={(e) => this.handleSubmit()}
+						>
+							Submit
+							</Button>
+					</InputGroup.Append>
+				</InputGroup>
+				<ul>
+					{listItems}
+				</ul>
+			</Fragment>
+
+			:
+
+			<Fragment>
+				<ul>
+					{listItems}
+				</ul>
+			</Fragment>
+
+		return (
+			<Container>
+				{text}
+			</Container>
+
+		)
+>>>>>>> 3e6da86c54e3ea6b94b91b73fbc6658ffdc28056
 
 	}
 }
