@@ -1,11 +1,14 @@
 const Router = require('express').Router();
 const uuidv4 = require('uuid/v4');
-const HOSTNAME = "http://article-analyzer-hdwhite.cloudapps.unc.edu/";
+const cheerio = require('cheerio');
+const request = require('request');
+
 let URL = require('./models/URL');
 let Workspace = require('./models/Workspace');
 let Annotation = require('./models/Annotation');
 let Scraper = require('./Scraper.js');
 
+const HOSTNAME = "http://article-analyzer-hdwhite.cloudapps.unc.edu/";
 // DEV PURPOSE; GET THE LIST OF ALL WORKSPACES
 Router.get("/api/get-all-workspace", (req, res) => {
 	Workspace.find((err, workspaces) => {
@@ -33,6 +36,7 @@ res.body = {
 	content: String, parsed content of the webpage
 }
 */
+<<<<<<< HEAD
 const cheerio = require('cheerio');
 const request = require('request');
 
@@ -54,31 +58,59 @@ const request = require('request');
 
 
 
+=======
+
+var scrape = (html)=>{
+	let $ = cheerio.load(html);
+	let text = $('p').text();
+	return text;
+}
+>>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 Router.post('/api/create', (req, res) => {
 	console.log("try to create workspace");
 	const id = uuidv4();
 	console.log("generated uuid: " + id);
+<<<<<<< HEAD
 
 	//scrape the original webpage
 	var content = scrape(req.body.original_url);
 	//console.log(content);
 	//var content = "";
+=======
+>>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 	var body = req.body;
 	console.log(req.body);
 	body.url_id = HOSTNAME + id;
-	body.content = content;
-	var workspace = new Workspace(body);
-	console.log(body);
-	workspace.save()
-		.then(() => {
-			console.log("workspace saved in database successfully");
-			res.send(body);
-		})
-		.catch(() => {
-			console.log("saving workspace failed");
-			res.send("workspace not saved");
-		});
+
+	// parse the webpage
+	request(req.body.original_url, (err, response, html)=>{
+		if(!err && response.statusCode == 200){
+			body.content = scrape(html);
+			var workspace = new Workspace(body);
+			console.log(body);
+			workspace.save()
+				.then(() => {
+					console.log("workspace saved in database successfully");
+					res.send(body);
+				})
+				.catch(() => {
+					console.log("saving workspace failed");
+					res.send("workspace not saved");
+				});
+		}
+		else{
+			console.log(err);
+			console.log("Failed to load Page")
+			res.send("Failed to load Page");
+		}
+	})
+	
 });
+
+
+
+
+
 
 // GET WORKSPACE
 /*

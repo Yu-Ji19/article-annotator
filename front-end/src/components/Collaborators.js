@@ -4,21 +4,20 @@ import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
-// Yu Ji put firstTime into state
-const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
 
 class Collaborators extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			id: this.props.Cid,
 			name: '',
+<<<<<<< HEAD
 			namesArray: [],
 			firstTime: true
+=======
+>>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 		};
 		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	
 
@@ -26,39 +25,11 @@ class Collaborators extends Component {
 		this.setState({ name: e.target.value })
 	}
 
-	handleSubmit(e) {
-		this.props.addCollabName(this.state.name)
-
-
-	}
-	makeCollabList(){
-		let list = this.state.namesArray.map((data) =>
-					<li key={data}>{data[0]} {data[1]} </li>,
-				);
-		return list;
-	}
-
-	componentWillMount() {
-		fetch(hostname + '/api/collaborators/' + this.state.id, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			}
-		}).then((response) => response.json().then(data => {
-			console.log(data);
-			this.setState({
-				//returns an array of [key, value] pairs
-				namesArray: Object.entries(data)	
-			});
-		})
-		);
-	}
-
 	render() {
-		let listItems = this.makeCollabList();
-
-		const text = this.state.firstTime ?
+		let collaborators = this.props.collaborators;
+		const text = this.props.nameSet ?
+			<Fragment style = {style}>[{this.state.name}]</Fragment>
+			:
 			<Fragment>
 				<InputGroup className="mb-3">
 					<FormControl
@@ -71,33 +42,29 @@ class Collaborators extends Component {
 					<InputGroup.Append>
 						<Button
 							variant="secondary"
-							onClick={(e) => this.handleSubmit()}
+							onClick={(e) => {this.props.addCollabName(this.state.name)}}
 						>
 							Submit
 							</Button>
 					</InputGroup.Append>
 				</InputGroup>
-				<ol>
-					{listItems}
-				</ol>
 			</Fragment>
-
-			:
-
-			<Fragment>
-				<ol>
-					{listItems}
-				</ol>
-			</Fragment>
-
+			
 		return (
 			<Container>
 				{text}
+				<Fragment>
+					<ol>
+						{collaborators}
+					</ol>
+				</Fragment>
 			</Container>
-
 		)
-
 	}
+}
+
+const style = {
+	fontSize: "20pt"
 }
 
 export default Collaborators

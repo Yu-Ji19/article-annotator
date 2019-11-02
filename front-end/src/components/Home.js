@@ -4,7 +4,7 @@ import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
-const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
+const hostname = process.env.HOSTNAME || "http://localhost:8080";
 
 class Home extends Component {
 	constructor(props) {
@@ -37,7 +37,9 @@ class Home extends Component {
 				//change route to url_id from response
 				window.location.pathname = data.url_id.substr(50);
 			})
-		);
+		).catch(error=>{
+			console.log(error);
+		});
 	}
 
 	render() {
