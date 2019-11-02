@@ -35,6 +35,12 @@ res.body = {
 	content: String, parsed content of the webpage
 }
 */
+
+var scrape = (html)=>{
+	let $ = cheerio.load(html);
+	let text = $('p').text();
+	return text;
+}
 Router.post('/api/create', (req, res) => {
 	console.log("try to create workspace");
 	const id = uuidv4();
@@ -45,13 +51,8 @@ Router.post('/api/create', (req, res) => {
 
 	// parse the webpage
 	request(req.body.original_url, (err, response, html)=>{
-		console.log(err);
-		console.log(html);
-		console.log(response);
 		if(!err && response.statusCode == 200){
-			let $ = cheerio.load(html);
-			let text = $('p').text();
-			body.content = text;
+			body.content = scrape(html);
 			var workspace = new Workspace(body);
 			console.log(body);
 			workspace.save()
@@ -72,6 +73,11 @@ Router.post('/api/create', (req, res) => {
 	})
 	
 });
+
+
+
+
+
 
 // GET WORKSPACE
 /*
