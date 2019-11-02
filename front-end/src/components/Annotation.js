@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
-const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
+const hostname = process.env.HOSTNAME || "http://localhost:8080";
 
 class Annotation extends Component {
 	constructor(props) {
@@ -13,8 +13,7 @@ class Annotation extends Component {
 			content: props.content,
 			finished: props.finished
 		}
-
-		//this.handleChange = this.handleChange.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 
@@ -27,7 +26,6 @@ class Annotation extends Component {
 	}
 
 	submitAnnotation() {
-
 		fetch(hostname + '/api/annotation/insert', {
 			method: 'POST',
 			headers: {
@@ -47,6 +45,7 @@ class Annotation extends Component {
 				finished: true
 			})
 		});
+		this.props.finishAnnotation();
 	}
 
 	render() {

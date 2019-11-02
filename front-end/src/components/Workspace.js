@@ -8,7 +8,7 @@ import Share from './Share'
 import Website from './Website'
 import AnnotationList from './AnnotationList'
 
-const hostname = process.env.HOSTNAME || "http://127.0.0.1:8080";
+const hostname = process.env.HOSTNAME || "http://localhost:8080";
 
 class Workspace extends Component {
 	constructor(props) {
@@ -17,8 +17,15 @@ class Workspace extends Component {
 			id: this.props.match.params.id,
 			date: null,
 			original_url: null,
-			collab_name: null,
+			collabName: "stupidFish",
+			annotations: null,
+			collaborators: null,
+			nameSet: false,
+			pendingAnnotation: false
 		}
+		this.createAnnotation = this.createAnnotation.bind(this);
+		this.addCollabName = this.addCollabName.bind(this);
+		this.finishAnnotation = this.finishAnnotation.bind(this);
 	}
 
 	componentDidMount() {
@@ -37,21 +44,71 @@ class Workspace extends Component {
 			});
 		})
 		);
-	}
 
-	handleClick(e) {
-		if (this.state.annotateOn === true) {
-			this.setState({ annotateOn: false })
-		} else {
-			this.setState({ annotateOn: true })
-		}
+		fetch(hostname + '/api/annotation/all/' + this.state.id, {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+		}).then((response) => response.json().then(data => {
+			console.log(data);
+			this.setState({
+				annotations: data.map(v => ({...v, finished: true}))
+			});
+		})
+		);
+
+		fetch(hostname + '/api/collaborators/' + this.state.id, {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		}).then((response) => response.json().then(data => {
+			this.setState({
+				collaborators: Object.entries(data)
+			});
+		})
+		);
+
+		//random name generate here
+
 	}
 
 	addCollabName(name){
-		this.setState({collab_name: name})	
+		this.setState({
+			collabName: name,
+			nameSet:true
+		})	
+	}
+
+	createAnnotation(annotation) {
+		this.setState({
+			annotations: [...this.state.annotations, annotation],
+			pendingAnnotation:true
+		})
+	}
+
+	finishAnnotation(){
+		console.log(this.state.collaborators);
+		var newCollaborators = this.state.collaborators.map(([name, freq])=>{
+			if(name === this.state.collabName){
+				return [name, freq+1];
+			}
+			return [name, freq];
+		});
+		this.setState({
+			pendingAnnotation:false,
+			collaborators: newCollaborators
+		})
 	}
 
 	render() {
+		console.log(this.state);
+		var collaborators = this.state.collaborators? this.state.collaborators.map(([name, freq])=>{
+			return <li>{name}:{freq}</li>
+		}):[];
 		return (
 			<Container>
 				<h1>{this.state.original_url}</h1>
@@ -60,8 +117,12 @@ class Workspace extends Component {
 						<Share />
 					</Col>
 					<Col xs={4}>
-						<Collaborators Cid={this.state.id}
-						 addCollabName={(name) => this.addCollabName(name)}/>
+						<Collaborators 
+							Cid={this.state.id}
+							addCollabName={this.addCollabName}
+							collaborators={collaborators}
+							nameSet={this.state.nameSet}
+						/>
 					</Col>
 				</Row>
 				<Row>
@@ -69,7 +130,14 @@ class Workspace extends Component {
 						<Website />
 					</Col>
 					<Col xs={4}>
-						<AnnotationList id={this.state.id} name={this.state.collab_name}/>
+						<AnnotationList 
+							id={this.state.id} 
+							name={this.state.collabName}
+							createAnnotation = {this.createAnnotation}
+							finishAnnotation = {this.finishAnnotation}
+							annotations = {this.state.annotations}
+							pendingAnnotation = {this.state.pendingAnnotation}
+						/>
 					</Col>
 				</Row>
 			</Container>
