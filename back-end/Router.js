@@ -4,6 +4,7 @@ const HOSTNAME = "http://article-analyzer-hdwhite.cloudapps.unc.edu/";
 let URL = require('./models/URL');
 let Workspace = require('./models/Workspace');
 let Annotation = require('./models/Annotation');
+let Scraper = require('./Scraper.js');
 
 // DEV PURPOSE; GET THE LIST OF ALL WORKSPACES
 Router.get("/api/get-all-workspace", (req, res) => {
@@ -32,14 +33,36 @@ res.body = {
 	content: String, parsed content of the webpage
 }
 */
+const cheerio = require('cheerio');
+const request = require('request');
+
+
+ function scrape(url){
+	request(url, (error,
+		res, html) =>{
+			if(!error && res.statusCode == 200){
+				let $ = cheerio.load(html);
+				let text = $('p').text();
+				console.log(text);
+				return text;
+			}
+			else{
+				console.log("Failed to load Page")
+			}
+	});	
+}
+
+
+
 Router.post('/api/create', (req, res) => {
 	console.log("try to create workspace");
 	const id = uuidv4();
 	console.log("generated uuid: " + id);
 
 	//scrape the original webpage
-	//var content = Scraper.scrape(req.body.original_url);
-	var content = "";
+	var content = scrape(req.body.original_url);
+	//console.log(content);
+	//var content = "";
 	var body = req.body;
 	console.log(req.body);
 	body.url_id = HOSTNAME + id;

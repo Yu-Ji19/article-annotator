@@ -15,7 +15,6 @@ class Collaborators extends Component {
 			id: this.props.Cid,
 			name: '',
 			namesArray: [],
-			namesObject: {},
 			firstTime: true
 		};
 		this.handleChange = this.handleChange.bind(this);

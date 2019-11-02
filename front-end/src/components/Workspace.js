@@ -18,6 +18,7 @@ class Workspace extends Component {
 			date: null,
 			original_url: null,
 			collab_name: null,
+			content: ''
 		}
 	}
 
@@ -30,10 +31,12 @@ class Workspace extends Component {
 			}
 		}).then((response) => response.json().then(data => {
 			console.log(data);
+			console.log(data.content)
 			this.setState({
 				id: this.state.id,
 				date: data.date,
-				original_url: data.original_url
+				original_url: data.original_url,
+				content: data.content
 			});
 		})
 		);

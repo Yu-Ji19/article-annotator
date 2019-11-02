@@ -1,12 +1,14 @@
 const cheerio = require('cheerio');
 const request = require('request');
 
-function scrape(url){
+
+module.exports.scrape = function (url){
 	request(url, (error,
 		res, html) =>{
 			if(!error && res.statusCode == 200){
 				let $ = cheerio.load(html);
 				let text = $('p').text();
+				console.log(text);
 				return text;
 			}
 			else{
