@@ -36,48 +36,16 @@ res.body = {
 	content: String, parsed content of the webpage
 }
 */
-<<<<<<< HEAD
-const cheerio = require('cheerio');
-const request = require('request');
-
-
- function scrape(url){
-	request(url, (error,
-		res, html) =>{
-			if(!error && res.statusCode == 200){
-				let $ = cheerio.load(html);
-				let text = $('p').text();
-				console.log(text);
-				return text;
-			}
-			else{
-				console.log("Failed to load Page")
-			}
-	});	
-}
-
-
-
-=======
 
 var scrape = (html)=>{
 	let $ = cheerio.load(html);
 	let text = $('p').text();
 	return text;
 }
->>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 Router.post('/api/create', (req, res) => {
 	console.log("try to create workspace");
 	const id = uuidv4();
 	console.log("generated uuid: " + id);
-<<<<<<< HEAD
-
-	//scrape the original webpage
-	var content = scrape(req.body.original_url);
-	//console.log(content);
-	//var content = "";
-=======
->>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 	var body = req.body;
 	console.log(req.body);
 	body.url_id = HOSTNAME + id;

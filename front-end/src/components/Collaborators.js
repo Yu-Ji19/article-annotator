@@ -11,11 +11,6 @@ class Collaborators extends Component {
 		super(props);
 		this.state = {
 			name: '',
-<<<<<<< HEAD
-			namesArray: [],
-			firstTime: true
-=======
->>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 		};
 		this.handleChange = this.handleChange.bind(this);
 	}
