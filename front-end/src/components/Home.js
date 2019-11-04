@@ -4,7 +4,7 @@ import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
-const hostname = process.env.HOSTNAME || "http://localhost:8080";
+//const hostname = process.env.HOSTNAME || "http://localhost:8080";
 
 class Home extends Component {
 	constructor(props) {
@@ -13,8 +13,7 @@ class Home extends Component {
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-
-		console.log("API: " + hostname);
+		this.hostname = process.env.HOSTNAME || "http://localhost:8080";
 	}
 
 	handleChange(e) {
@@ -22,8 +21,8 @@ class Home extends Component {
 	}
 
 	handleSubmit(e) {
-		console.log(hostname);
-		fetch(hostname + '/api/create', {
+		console.log(this.hostname);
+		fetch(this.hostname + '/api/create', {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
