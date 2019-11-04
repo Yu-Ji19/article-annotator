@@ -38,9 +38,7 @@ class Home extends Component {
 				//change route to url_id from response
 				window.location.pathname = data.url_id.substr(50);
 			})
-		).catch(error=>{
-			console.log(error);
-		});
+		);
 	}
 
 	render() {

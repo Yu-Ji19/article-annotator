@@ -17,7 +17,6 @@ class Workspace extends Component {
 			id: this.props.match.params.id,
 			date: null,
 			original_url: null,
-			content:"",
 			collabName: "stupidFish",
 			annotations: null,
 			collaborators: null,
@@ -37,11 +36,11 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
+			console.log(data);
 			this.setState({
 				id: this.state.id,
 				date: data.date,
-				original_url: data.original_url,
-				content:data.content
+				original_url: data.original_url
 			});
 		})
 		);
@@ -128,7 +127,7 @@ class Workspace extends Component {
 				</Row>
 				<Row>
 					<Col xs={8}>
-						<Website content = {this.state.content}/>
+						<Website />
 					</Col>
 					<Col xs={4}>
 						<AnnotationList 
