@@ -20,6 +20,7 @@ class Home extends Component {
 	}
 
 	handleSubmit(e) {
+		console.log(process.env);
 		console.log(hostname);
 		fetch(hostname + '/api/create', {
 			method: 'POST',
