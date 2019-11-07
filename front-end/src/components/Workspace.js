@@ -55,7 +55,7 @@ class Workspace extends Component {
 		}).then((response) => response.json().then(data => {
 			console.log(data);
 			this.setState({
-				annotations: data.map(v => ({...v, finished: true}))
+				annotations: data.annotations.map(v => ({...v, finished: true}))
 			});
 		})
 		);

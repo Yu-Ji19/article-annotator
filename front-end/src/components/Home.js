@@ -36,7 +36,7 @@ class Home extends Component {
 				console.log(data);
 
 				//change route to url_id from response
-				window.location.pathname = data.url_id.substr(50);
+				window.location.pathname = data.id;
 			})
 		).catch(error=>{
 			console.log(error);
