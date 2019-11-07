@@ -5,7 +5,7 @@ import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 import $ from "jquery"
 
-const hostname = process.env["HOSTNAME"] || "http://localhost:8080";
+const hostname = process.env["APIURL"] || "http://localhost:8080";
 
 class Home extends Component {
 	constructor(props) {

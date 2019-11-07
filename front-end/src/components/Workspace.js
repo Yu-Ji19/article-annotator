@@ -8,7 +8,7 @@ import Share from './Share'
 import Website from './Website'
 import AnnotationList from './AnnotationList'
 
-const hostname = process.env["HOSTNAME"] || "http://localhost:8080";
+const hostname = process.env["APIURL"] || "http://localhost:8080";
 
 class Workspace extends Component {
 	constructor(props) {
