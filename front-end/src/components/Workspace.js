@@ -67,7 +67,10 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
+			console.log("collaborator")
+			console.log(data);
 			this.setState({
+				
 				collaborators: Object.entries(data)
 			});
 		})
