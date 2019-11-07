@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 let Workspace = new Schema({
 
 	// UNIQUELY GENERATED URL
-	url_id: {
+	id: {
 		type: String
 	},
 
