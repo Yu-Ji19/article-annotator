@@ -45,6 +45,7 @@ Router.post("/api/create", (req, res) => {
   const id = uuidv4();
   console.log("generated uuid: " + id);
   var body = req.body;
+  console.log(req);
   console.log(req.body);
   body.id = id;
 
