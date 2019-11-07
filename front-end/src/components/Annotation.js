@@ -33,7 +33,7 @@ class Annotation extends Component {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				url_id: this.props.id,
+				id: this.props.id,
 				name: this.state.name,
 				date: 'now',
 				content: this.state.content
