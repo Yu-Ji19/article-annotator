@@ -28,7 +28,7 @@ req.body = {
 	original_url: String,
 }
 res.body = {
-	url_id: String, hostname/uuid
+	id: String, uuid
 	date: String, same as req.body
 	original_url: String, same as req.body
 	content: String, parsed content of the webpage
@@ -67,7 +67,7 @@ Router.post("/api/create", (req, res) => {
     } else {
       console.log(err);
       console.log("Failed to load Page");
-      res.send({ message: "Fail to load Page" });
+      res.send({ message: "Failed to load Page" });
     }
   });
 })
@@ -78,9 +78,9 @@ res.body = {
 }
 */
 Router.get("/api/workspace/:id", (req, res) => {
-  const url_id = HOSTNAME + req.params.id;
-  console.log("try to get workspace: " + url_id);
-  Workspace.findOne({ url_id: url_id }, (err, workspace) => {
+  const id = req.params.id;
+  console.log("try to get workspace: " + id);
+  Workspace.findOne({ id: id }, (err, workspace) => {
     if (err) {
       console.log("error when accessing database");
       res.send({ message: "Database error, please contact maintanence" });
@@ -100,7 +100,6 @@ Router.get("/api/workspace/:id", (req, res) => {
 /* 
 req.body = {
 	follows all properties defined in models/Annotation.js
-	Note: url_id should be the UUID without hostname(only randomly generated string)
 }
 res.body = {
 	messages
@@ -129,22 +128,31 @@ res.body = {
 }
 */
 Router.get("/api/annotation/all/:id", (req, res) => {
-  const url_id = req.params.id;
-  console.log(url_id);
-  Annotation.find({ url_id }, (err, annotations) => {
-    if (err) {
+  const id = req.params.id;
+  console.log("try to access list of annotations for " + id);
+  console.log(id);
+  Workspace.findOne({id}, (err, workspace)=>{
+    if(err){
       console.log("error when accessing database");
       res.send({message:"Database error, please contact maintanence"});
     }
-    if (!annotations) {
-      console.log({message:"counldn't find matching annotations"});
-      res.send({message:"Counldn't find annotations for the url"});
-    } else {
-      console.log("found annotations");
-      console.log(annotations);
-      res.send({annotations:annotations});
+    if(!workspace){
+      console.log("Invalid URL");
+      res.send({message: "Invalid URL"});
+    }else{
+      Annotation.find({ id }, (err, annotations) => {
+        if (err) {
+          console.log("error when accessing database");
+          res.send({message:"Database error, please contact maintanence"});
+        }
+        else {
+          console.log("found annotations");
+          console.log(annotations);
+          res.send({annotations:annotations});
+        }
+      });
     }
-  });
+  })
 });
 
 // GET THE LIST OF COLLABORATORS
@@ -158,28 +166,37 @@ res.body = {
 }
 */
 Router.get("/api/collaborators/:id", (req, res) => {
-  const url_id = req.params.id;
-  Annotation.find({ url_id }, (err, annotations) => {
-    if (err) {
+  console.log("try to find collaborators");
+  const id = req.params.id;
+  Workspace.findOne({id}, (err, workspace)=>{
+    if(err){
       console.log("error when accessing database");
       res.send({message:"Database error, please contact maintanence"});
     }
-    if (!annotations) {
-      console.log("counldn't find matching annotations");
-      res.send({message:"Counldn't find annotations for the url"});
-    } else {
-      var collaborators = {};
-      annotations.forEach(annotation => {
-        if (!collaborators[annotation.name]) {
-          collaborators[annotation.name] = 1;
-        } else {
-          collaborators[annotation.name] += 1;
+    if(!workspace){
+      console.log("Invalid URL");
+      res.send({message: "Invalid URL"});
+    }else{
+      Annotation.find({id}, (err, annotations)=>{
+        if (err) {
+          console.log("error when accessing database");
+          res.send({message:"Database error, please contact maintanence"});
         }
-      });
-      console.log(collaborators);
-      res.send(collaborators);
+        else {
+          var collaborators = {};
+          annotations.forEach(annotation => {
+            if (!collaborators[annotation.name]) {
+              collaborators[annotation.name] = 1;
+            } else {
+              collaborators[annotation.name] += 1;
+            }
+          });
+          console.log(collaborators);
+          res.send(collaborators);
+        }
+      })
     }
-  });
+  })
 });
 
 

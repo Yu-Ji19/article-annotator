@@ -2,30 +2,6 @@ const hostname = "http://localhost:8080";
 const fetch = require("node-fetch");
 
 
-describe('create workspace test', () => {
-	var path = hostname+"/api/create";
-	var body = {
-		original_url: "http://www.google.com",
-		date:"just now"
-	}
-	it('create a workspace with illegal parameter', () => {
-		return fetch(path, {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(body)
-		}).then(res=>res.json())
-		.then(json=>{
-			var obj = {};
-			obj.original_url = json.original_url;
-			obj.date = json.date;
-			expect(obj).toEqual(body);
-		})
-	})
-})
-
 describe('insert three annotations after creating workspace under the same name', () => {
     var path = hostname+"/api/create";
 	var body = {
@@ -58,7 +34,7 @@ describe('insert three annotations after creating workspace under the same name'
 		.then(()=>{
 			path = hostname+'/api/annotation/insert';
 			var annotation = {
-				url_id: id,
+				id: id,
 				name: name,
 				date: annotationTime,
 				content: content1
@@ -79,7 +55,7 @@ describe('insert three annotations after creating workspace under the same name'
 		.then(()=>{
 			path = hostname+'/api/annotation/insert';
 			var annotation = {
-				url_id: id,
+				id: id,
 				name: name,
 				date: annotationTime,
 				content: content2
@@ -100,7 +76,7 @@ describe('insert three annotations after creating workspace under the same name'
 		.then(()=>{
 			path = hostname+'/api/annotation/insert';
 			var annotation = {
-				url_id: id,
+				id: id,
 				name: name,
 				date: annotationTime,
 				content: content3
@@ -159,27 +135,50 @@ describe('insert three annotations after creating workspace under the same name'
 })
 
 
-describe('access workspace with invalid url',()=>{
-	it('access workspace with invalid url', ()=>{
-		const illegalID = "IllegalID";
-		var path = hostname + '/api/workspace/' +illegalID;
+
+
+describe('collaborator', () => {
+    var path = hostname+"/api/create";
+	var body = {
+		original_url: "http://www.google.com",
+		date:"just now"
+	}
+	
+	var id = "";
+	it('create a workspace try to get collab list, should be empty', () => {
 		return fetch(path, {
-			method: 'GET',
+			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
-			}
+			},
+			body: JSON.stringify(body)
 		})
 		.then(res=>res.json())
 		.then(json=>{
-			const message = "Invalid URL"
-			expect(json.message).toEqual(message);
+			id = json.id
+			var obj = {};
+			obj.original_url = json.original_url;
+			obj.date = json.date;
+			expect(obj).toEqual(body);
 		})
-	})
+		.catch((err)=>{
+			console.log(err);
+		})
+		.then(()=>{
+			path = hostname+'/api/collaborators/' + id;
+			return fetch(path, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(res=>res.json())
+			.then(json=>{
+				expect(json).toEqual({});
+			})
+		})
+		
+	})		
 })
-
-// describe('the other function', () => {
-// 	it('return the sum of two integers', () => {
-// 		expect(summy(3,4)).toEqual(7)
-// 	})
-// })

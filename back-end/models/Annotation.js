@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 let Annotation = new Schema({
 
 	// URL TO THE WORKSPACE
-	url_id: {
+	id: {
 		type: String
 	},
 
