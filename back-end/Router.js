@@ -70,8 +70,7 @@ Router.post("/api/create", (req, res) => {
       res.send({ message: "Fail to load Page" });
     }
   });
-});
-
+})
 // GET WORKSPACE
 /*
 res.body = {
