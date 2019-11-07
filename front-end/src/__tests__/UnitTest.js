@@ -1,8 +1,6 @@
 const hostname = "http://localhost:8080";
 const fetch = require("node-fetch");
 
-
-
 describe('access information of non-existent workspace',()=>{
 	it('get a list of collaborators for an illegal workspace', ()=>{
 		const illegalID = "IllegalID";
