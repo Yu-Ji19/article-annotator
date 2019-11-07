@@ -17,17 +17,12 @@ class Workspace extends Component {
 			id: this.props.match.params.id,
 			date: null,
 			original_url: null,
-<<<<<<< HEAD
-			collab_name: null,
-			content: ''
-=======
 			content:"",
 			collabName: "stupidFish",
 			annotations: null,
 			collaborators: null,
 			nameSet: false,
 			pendingAnnotation: false
->>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 		}
 		this.createAnnotation = this.createAnnotation.bind(this);
 		this.addCollabName = this.addCollabName.bind(this);
@@ -42,20 +37,11 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
-<<<<<<< HEAD
-			console.log(data);
-			console.log(data.content)
-=======
->>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 			this.setState({
 				id: this.state.id,
 				date: data.date,
 				original_url: data.original_url,
-<<<<<<< HEAD
-				content: data.content
-=======
 				content:data.content
->>>>>>> 92e846b7e2d7892df04e433657447a82de7f494c
 			});
 		})
 		);

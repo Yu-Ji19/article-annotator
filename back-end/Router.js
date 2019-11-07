@@ -6,7 +6,6 @@ const request = require('request');
 let URL = require('./models/URL');
 let Workspace = require('./models/Workspace');
 let Annotation = require('./models/Annotation');
-let Scraper = require('./Scraper.js');
 
 const HOSTNAME = "http://article-analyzer-hdwhite.cloudapps.unc.edu/";
 // DEV PURPOSE; GET THE LIST OF ALL WORKSPACES
