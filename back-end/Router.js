@@ -67,7 +67,7 @@ Router.post("/api/create", (req, res) => {
     } else {
       console.log(err);
       console.log("Failed to load Page");
-      res.send({ message: "Fail to load Page" });
+      res.send({ message: "Failed to load Page" });
     }
   });
 })

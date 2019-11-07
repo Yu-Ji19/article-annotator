@@ -30,7 +30,7 @@ describe('create workspace', () => {
 				original_url: url
 			})
 		}).then(res => res.json()).then(json => {
-			fetch('http://localhost:8080/api/workspace/' + json.url_id.substr(50), {
+			fetch('http://localhost:8080/api/workspace/' + json.id.substr(50), {
 				method: 'GET',
 				headers: {
 					'Accept': 'application/json',
