@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container"
 import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
+import $ from "jquery"
 
 const hostname = process.env["HOSTNAME"] || "http://localhost:8080";
 
@@ -22,6 +23,11 @@ class Home extends Component {
 	handleSubmit(e) {
 		console.log(process.env);
 		console.log(hostname);
+		// $.post(hostname+'/api/create', 
+		// 		JSON.stringify({date:"now", original_url: this.state.value}), (res)=>{
+		// 	console.log(res);
+		// })
+
 		fetch(hostname + '/api/create', {
 			method: 'POST',
 			headers: {
@@ -36,7 +42,7 @@ class Home extends Component {
 				console.log(data);
 
 				//change route to url_id from response
-				window.location.pathname = data.url_id.substr(50);
+				window.location.pathname = data.id;
 			})
 		).catch(error=>{
 			console.log(error);
