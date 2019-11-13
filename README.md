@@ -1,33 +1,33 @@
-##Article Annotator
+## Article Annotator
 
 proj. desc.
 
-##Getting started
+## Getting started
 
 Prereqs, installing, running locally, warranty
 
-##Testing
+## Testing
 
 How to run tests, commands for tests
 
-##Deployment
+## Deployment
 
 Where is the production system?
 
-##Technologies used
+## Technologies used
 
 Technologies used, add ADRs to repo
 
-##Contributing
+## Contributing
 
 GitHub, Trello, etc.?
 
-##Authors
+## Authors
 
 authors
 
-##License
+## License
 
 MIT?
 
-##Acknowledgements
+## Acknowledgements
