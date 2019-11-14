@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
-const hostname = process.env["APIURL"] || "http://localhost:8080";
+const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
 class Annotation extends Component {
 	constructor(props) {
