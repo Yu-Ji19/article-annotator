@@ -31,7 +31,7 @@ Article Annotator makes use of the following technologies:
 * React for its front-end framework
 * Carolina CloudApps for its host
 
-The rationale and decision process for selecting each of these technologies can be found at **[TODO: ADD ADRs]**
+The rationale and decision process for selecting each of these technologies can be found at **folder ADR**
 
 ## Contributing
 
