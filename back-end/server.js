@@ -22,7 +22,7 @@ if (mongoHost !== "127.0.0.1") {
 	mongoURL += mongoUser + ':' + mongoPassword + '@';
 }
 mongoURL += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-console.log(mongoURL);
+//console.log(mongoURL);
 
 mongoose.connect(mongoURL);
 
