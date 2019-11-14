@@ -35,7 +35,8 @@ The rationale and decision process for selecting each of these technologies can 
 
 ## Contributing
 
-**[TODO: ADD CONTRIBUTOR INFO]**
+If a devloper wishes to contribte to the project there are a few steps to take. First, contact Dr. Todd Cherner of the UNC School of Education who is the owner of this app. After his approval you will need access to his Carolina CloudApps account which is where the project is being hosted. From there a devloper should be able to make any changes he/she wishes. Just clone the current Git-Hub Repo in use and deploy the new changes you wish to make on Carolina CloudApps.
+For more info about the project visit our project website at: http://articleanalyzer.web.unc.edu/
 
 ## Authors
 
@@ -47,8 +48,28 @@ As of November 13, 2019, Article Annotator is the work of three people:
 
 ## License
 
-**[TODO: ADD LICENSE]**
+Copyright (c) 2019 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ## Acknowledgements
 
-**[TODO: ADD ACKNOWLEDGEMENTS]**
+* First, we would like to acknowledge Dr. Todd Cherner of the UNC School of Education for bringing forth his idea too UNC's Software      Engineering class to be made.
+* Second, we want to acknowledge our professor Dr. Jeff Terrell for making this possible and being a great resource in and out of class.
+* Third, a speical thanks to our mentor during this project William Mowery who took time out of his schedule every week to meet with our team to assist with any advice or help trouble shooting any issues we had with the project. 
