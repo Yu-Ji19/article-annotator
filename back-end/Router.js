@@ -37,8 +37,19 @@ res.body = {
 
 var scrape = html => {
   let $ = cheerio.load(html);
-  let text = $("p").text();
-  return text;
+  let content = "";
+      // '*' selects all elements 
+			$('*').each(function () {
+				if($(this).get(0).tagName == 'p'){
+					content += $(this).text();
+				}
+				else if($(this).get(0).tagName == 'h1'){
+					content += $(this).text();
+        }
+        //add whatever tagname following above format
+      });
+    
+  return content;
 };
 Router.post("/api/create", (req, res) => {
   console.log("try to create workspace");
