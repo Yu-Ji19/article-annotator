@@ -37,15 +37,23 @@ res.body = {
 
 var scrape = html => {
   let $ = cheerio.load(html);
-  let content = '';
+  let content = "";
     // '*' selects all elements 
 		$('*').each(function () {
 			if($(this).get(0).tagName == 'p'){
-				content += $(this).text() + "\n";
+				content += $(this).text() + "<br />" ;
 			}
-			else if($(this).get(0).tagName == 'h1'){
-				content += $(this).text() + "\n";
-      }
+      else if($(this).get(0).tagName == 'h1'
+        || $(this).get(0).tagName == 'h2'
+        || $(this).get(0).tagName == 'h3'
+        || $(this).get(0).tagName == 'h4'
+        || $(this).get(0).tagName == 'h5'
+        || $(this).get(0).tagName == 'h6'){
+          content += $(this) .text() + "<br />" ;
+        }
+        if($(this).get(0).tagName == 'img'){
+          content += $(this) ;
+        }
         //add whatever tagname following above format
     });
     
