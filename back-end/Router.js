@@ -41,10 +41,10 @@ var scrape = html => {
       // '*' selects all elements 
 			$('*').each(function () {
 				if($(this).get(0).tagName == 'p'){
-					content += $(this).text();
+					content += $(this).text() + "\n";
 				}
 				else if($(this).get(0).tagName == 'h1'){
-					content += $(this).text();
+					content += $(this).text() + "\n";
         }
         //add whatever tagname following above format
       });
