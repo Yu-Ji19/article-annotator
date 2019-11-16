@@ -9,7 +9,7 @@ class Website extends Component {
 
 		return (
 			<Container>
-				{this.props.content}
+				<p>{this.props.content}></p>
 			</Container>
 		)
 	}
