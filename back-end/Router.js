@@ -39,15 +39,15 @@ var scrape = html => {
   let $ = cheerio.load(html);
   let content = "";
       // '*' selects all elements 
-			$('*').each(function () {
-				if($(this).get(0).tagName == 'p'){
-					content += $(this).text() + "\n";
-				}
-				else if($(this).get(0).tagName == 'h1'){
-					content += $(this).text() + "\n";
-        }
+		$('*').each(function () {
+			if($(this).get(0).tagName == 'p'){
+				content += $(this).text() + "<br>";
+			}
+			else if($(this).get(0).tagName == 'h1'){
+				content += $(this).text() + "<br>";
+      }
         //add whatever tagname following above format
-      });
+    });
     
   return content;
 };
