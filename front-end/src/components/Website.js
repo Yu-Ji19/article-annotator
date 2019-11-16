@@ -4,10 +4,9 @@ import Container from "react-bootstrap/Container"
 class Website extends Component {
 
 	render() {
+		const content = this.props.content;
 		return (
-			<Container>	
-				<p>{this.props.content}</p>
-			</Container>
+			<div className="content" dangerouslySetInnerHTML={{__html: content}}></div>
 		)
 	}
 }
