@@ -91,6 +91,7 @@ class Workspace extends Component {
 		} 
 		if(selectedText.rangeCount>0){
 			document.execCommand("backColor", true, "green");
+			console.log("turned green");
 		}
 	
 

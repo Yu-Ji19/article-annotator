@@ -42,6 +42,9 @@ class Annotation extends Component {
 				content: this.state.content
 			})
 		}).then((response) => {
+			this.setState({
+				finished: true
+			})
 		});
 		this.props.finishAnnotation();
 	}
