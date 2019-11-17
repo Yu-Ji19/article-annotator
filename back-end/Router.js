@@ -72,7 +72,6 @@ Router.post("/api/create", (req, res) => {
     if (!err && response.statusCode == 200) {
       body.content = scrape(html);
       var workspace = new Workspace(body);
-      console.log(body);
       workspace
         .save()
         .then(() => {
@@ -160,7 +159,7 @@ Router.get("/api/annotation/all/:id", (req, res) => {
       console.log("Invalid URL");
       res.send({message: "Invalid URL"});
     }else{
-      Annotation.find({ id }, (err, annotations) => {
+      Annotation.find({ workspace: id }, (err, annotations) => {
         if (err) {
           console.log("error when accessing database");
           res.send({message:"Database error, please contact maintanence"});
@@ -187,7 +186,9 @@ res.body = {
 */
 Router.get("/api/collaborators/:id", (req, res) => {
   console.log("try to find collaborators");
+  
   const id = req.params.id;
+  console.log(id)
   Workspace.findOne({id}, (err, workspace)=>{
     if(err){
       console.log("error when accessing database");
@@ -197,7 +198,7 @@ Router.get("/api/collaborators/:id", (req, res) => {
       console.log("Invalid URL");
       res.send({message: "Invalid URL"});
     }else{
-      Annotation.find({id}, (err, annotations)=>{
+      Annotation.find({workspace: id}, (err, annotations)=>{
         if (err) {
           console.log("error when accessing database");
           res.send({message:"Database error, please contact maintanence"});

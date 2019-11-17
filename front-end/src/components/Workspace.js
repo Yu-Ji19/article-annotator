@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 
+
 import Collaborators from './Collaborators'
 import Share from './Share'
 import Website from './Website'
@@ -14,13 +15,13 @@ class Workspace extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			id: this.props.match.params.id,
+			workspace: this.props.match.params.id,
 			date: null,
 			original_url: null,
 			content: "",
 			collabName: "stupidFish",
 			annotations: null,
-			collaborators: null,
+			collaborators: undefined,
 			nameSet: false,
 			pendingAnnotation: false
 		}
@@ -30,14 +31,13 @@ class Workspace extends Component {
 	}
 
 	componentDidMount() {
-		fetch(hostname + '/api/workspace/' + this.state.id, {
+		fetch(hostname + '/api/workspace/' + this.state.workspace, {
 			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
-			console.log(data);
 			this.setState({
 				id: this.state.id,
 				date: data.date,
@@ -47,31 +47,27 @@ class Workspace extends Component {
 		})
 		);
 
-		fetch(hostname + '/api/annotation/all/' + this.state.id, {
+		fetch(hostname + '/api/annotation/all/' + this.state.workspace, {
 			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
 		}).then((response) => response.json().then(data => {
-			console.log(data);
 			this.setState({
 				annotations: data.annotations.map(v => ({...v, finished: true}))
 			});
 		})
 		);
 
-		fetch(hostname + '/api/collaborators/' + this.state.id, {
+		fetch(hostname + '/api/collaborators/' + this.state.workspace, {
 			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
-			console.log("collaborator")
-			console.log(data);
 			this.setState({
-				
 				collaborators: Object.entries(data)
 			});
 		})
@@ -89,6 +85,15 @@ class Workspace extends Component {
 	}
 
 	createAnnotation(annotation) {
+		var selectedText;
+		if (window.getSelection) { 
+			selectedText = window.getSelection(); 
+		} 
+		if(selectedText.rangeCount>0){
+			document.execCommand("backColor", true, "green");
+		}
+	
+
 		this.setState({
 			annotations: [...this.state.annotations, annotation],
 			pendingAnnotation:true
@@ -96,13 +101,20 @@ class Workspace extends Component {
 	}
 
 	finishAnnotation(){
-		console.log(this.state.collaborators);
-		var newCollaborators = this.state.collaborators.map(([name, freq])=>{
-			if(name === this.state.collabName){
-				return [name, freq+1];
-			}
-			return [name, freq];
-		});
+		var newCollaborators = [];
+		var collabName = this.state.collabName;
+		if(!this.state.collaborators || !this.state.collaborators[this.state.collabName]){
+			newCollaborators = this.state.collaborators;
+			newCollaborators.push([collabName,1]);
+		}
+		else{
+			newCollaborators = this.state.collaborators.map(([name, freq])=>{
+				if(name === this.state.collabName){
+					return [name, freq+1];
+				}
+				return [name, freq];
+			});
+		}
 		this.setState({
 			pendingAnnotation:false,
 			collaborators: newCollaborators
@@ -110,10 +122,7 @@ class Workspace extends Component {
 	}
 
 	render() {
-		console.log(this.state);
-		var collaborators = this.state.collaborators? this.state.collaborators.map(([name, freq])=>{
-			return <li>{name}:{freq}</li>
-		}):[];
+		
 		return (
 			<Container>
 				<h1>{this.state.original_url}</h1>
@@ -125,7 +134,7 @@ class Workspace extends Component {
 						<Collaborators 
 							Cid={this.state.id}
 							addCollabName={this.addCollabName}
-							collaborators={collaborators}
+							collaborators={this.state.collaborators}
 							nameSet={this.state.nameSet}
 						/>
 					</Col>
@@ -136,7 +145,7 @@ class Workspace extends Component {
 					</Col>
 					<Col xs={4}>
 						<AnnotationList 
-							id={this.state.id} 
+							workspace={this.state.workspace} 
 							name={this.state.collabName}
 							createAnnotation = {this.createAnnotation}
 							finishAnnotation = {this.finishAnnotation}

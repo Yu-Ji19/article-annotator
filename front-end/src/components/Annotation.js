@@ -11,7 +11,9 @@ class Annotation extends Component {
 		this.state = {
 			name: props.name,
 			content: props.content,
-			finished: props.finished
+			finished: props.finished,
+			workspace: props.workspace,
+			id: props.id
 		}
 		this.handleChange = this.handleChange.bind(this);
 	}
@@ -33,17 +35,13 @@ class Annotation extends Component {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				id: this.props.id,
+				workspace: this.state.workspace,
+				id: this.state.id,
 				name: this.state.name,
 				date: 'now',
 				content: this.state.content
 			})
 		}).then((response) => {
-			this.setState({
-				name: this.state.name,
-				content: this.state.content,
-				finished: true
-			})
 		});
 		this.props.finishAnnotation();
 	}
