@@ -4,11 +4,7 @@ import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button"
 
-<<<<<<< HEAD
-const hostname = process.env.HOSTNAME || "http://localhost:8080";
-=======
 const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
->>>>>>> master
 
 class Home extends Component {
 	constructor(props) {
@@ -24,13 +20,9 @@ class Home extends Component {
 	}
 
 	handleSubmit(e) {
-<<<<<<< HEAD
-		console.log(hostname);
-=======
 		console.log(process.env);
 		console.log("this is the hostname" + hostname);
 		console.log("this is apiURL" + process.env["APIURL"]);
->>>>>>> master
 		fetch(hostname + '/api/create', {
 			method: 'POST',
 			headers: {
