@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
-const hostname = process.env.HOSTNAME || "http://localhost:8080";
+const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
 class Annotation extends Component {
 	constructor(props) {
@@ -33,7 +33,7 @@ class Annotation extends Component {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				url_id: this.props.id,
+				id: this.props.id,
 				name: this.state.name,
 				date: 'now',
 				content: this.state.content

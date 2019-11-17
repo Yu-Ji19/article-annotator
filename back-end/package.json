@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "production": "NODE_ENV=production node server.js"
+    "production": "NODE_ENV=production node server.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,12 +21,14 @@
   "homepage": "https://github.com/COMP-523-Team-H/article-analyzer-frontonly#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cheerio": "1.0.0-rc.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jest": "^24.9.0",
     "mongoose": "^5.7.5",
+    "node-fetch": "^2.6.0",
     "nodemon": "^1.19.3",
-    "uuid": "^3.3.3",
-    "cheerio": "1.0.0-rc.3",
-    "request": "2.88.0"
+    "request": "2.88.0",
+    "uuid": "^3.3.3"
   }
 }

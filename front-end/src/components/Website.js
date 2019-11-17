@@ -3,11 +3,10 @@ import Container from "react-bootstrap/Container"
 
 class Website extends Component {
 
-
 	render() {
-
-
+		const content = this.props.content;
 		return (
+<<<<<<< HEAD
 			<Container>
 				<div>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Phasellus egestas tellus rutrum tellus pellentesque. Bibendum at varius vel pharetra vel turpis nunc eget. Curabitur gravida arcu ac tortor dignissim convallis aenean. Quis risus sed vulputate odio. Nulla posuere sollicitudin aliquam ultrices sagittis. Sollicitudin nibh sit amet commodo nulla facilisi nullam. Pulvinar etiam non quam lacus suspendisse. Iaculis nunc sed augue lacus viverra vitae congue eu. Vitae et leo duis ut diam. Massa tempor nec feugiat nisl pretium fusce id. Malesuada pellentesque elit eget gravida cum sociis natoque penatibus et. Ornare aenean euismod elementum nisi. In mollis nunc sed id semper risus. Ac turpis egestas maecenas pharetra.
@@ -25,6 +24,9 @@ class Website extends Component {
 
 
 			</Container>
+=======
+			<div className="content" dangerouslySetInnerHTML={{__html: content}}></div>
+>>>>>>> master
 		)
 	}
 }

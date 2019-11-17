@@ -3,7 +3,6 @@ const cors = require('cors');
 
 const mongoose = require('mongoose');
 const app = express();
-const path = require('path');
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
 
@@ -22,7 +21,7 @@ if (mongoHost !== "127.0.0.1") {
 	mongoURL += mongoUser + ':' + mongoPassword + '@';
 }
 mongoURL += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-console.log(mongoURL);
+//console.log(mongoURL);
 
 mongoose.connect(mongoURL);
 
@@ -32,6 +31,7 @@ const connection = mongoose.connection;
 connection.once('open', () => {
 	console.log("mongoDB database connection established successfully");
 });
+
 
 app.use(bodyParser.json());
 app.use(cors());

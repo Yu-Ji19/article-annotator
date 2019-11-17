@@ -8,7 +8,7 @@ import Share from './Share'
 import Website from './Website'
 import AnnotationList from './AnnotationList'
 
-const hostname = process.env.HOSTNAME || "http://localhost:8080";
+const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
 class Workspace extends Component {
 	constructor(props) {
@@ -54,7 +54,7 @@ class Workspace extends Component {
 		}).then((response) => response.json().then(data => {
 			console.log(data);
 			this.setState({
-				annotations: data.map(v => ({...v, finished: true}))
+				annotations: data.annotations.map(v => ({...v, finished: true}))
 			});
 		})
 		);
@@ -66,7 +66,10 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
+			console.log("collaborator")
+			console.log(data);
 			this.setState({
+				
 				collaborators: Object.entries(data)
 			});
 		})
