@@ -20,3 +20,12 @@
 .App-link {
   color: #09d3ac;
 }
+
+.content {
+  text-align: left;
+}
+
+.content > img {
+  float: left;
+  margin: 20px;
+}
