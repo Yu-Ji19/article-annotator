@@ -7,7 +7,6 @@ let URL = require("./models/URL");
 let Workspace = require("./models/Workspace");
 let Annotation = require("./models/Annotation");
 
-const HOSTNAME = "http://article-analyzer-hdwhite.cloudapps.unc.edu/";
 // DEV PURPOSE; GET THE LIST OF ALL WORKSPACES
 Router.get("/api/get-all-workspace", (req, res) => {
   Workspace.find((err, workspaces) => {
