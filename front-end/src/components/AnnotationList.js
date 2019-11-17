@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
+import uuidv4 from "uuid/v4";
 
 import Annotation from "./Annotation"
 
@@ -11,8 +12,9 @@ class AnnotationList extends Component {
 		<Container>
 			{this.props.annotations.map((annotation) => 
 				<Annotation 
-					id={this.props.id}
-					key={annotation._id}
+					workspace={annotation.workspace}
+					id={annotation.id}
+					key={annotation.id}
 					name={annotation.name}
 					content={annotation.content}
 					finished={annotation.finished}
@@ -23,18 +25,16 @@ class AnnotationList extends Component {
 		:
 		<Container/>
 		return (
-			
 			<Container>
 				<Button
 					variant="secondary"
-					
 					onClick={this.props.pendingAnnotation? 
 						null
 						:
 						(e) => {
 							this.props.createAnnotation({
-								id: this.props.id,
-								key: "temporary",
+								id: uuidv4(),
+								workspace: this.props.workspace,
 								name: this.props.name,
 								content: "",
 								finished: false,

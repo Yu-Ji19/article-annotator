@@ -20,9 +20,6 @@ class Home extends Component {
 	}
 
 	handleSubmit(e) {
-		console.log(process.env);
-		console.log("this is the hostname" + hostname);
-		console.log("this is apiURL" + process.env["APIURL"]);
 		fetch(hostname + '/api/create', {
 			method: 'POST',
 			headers: {
@@ -34,7 +31,6 @@ class Home extends Component {
 				original_url: this.state.value
 			})
 		}).then((response) => response.json().then(data => {
-				console.log(data);
 
 				//change route to url_id from response
 				window.location.pathname = data.id;

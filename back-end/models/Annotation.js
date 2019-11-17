@@ -4,6 +4,14 @@ const Schema = mongoose.Schema;
 let Annotation = new Schema({
 
 	// URL TO THE WORKSPACE
+	workspace:{
+		type: String
+	},
+
+	key:{
+		type: String
+	},
+
 	id: {
 		type: String
 	},
