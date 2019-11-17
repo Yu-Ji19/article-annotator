@@ -118,7 +118,7 @@ class Workspace extends Component {
 				<h1>{this.state.original_url}</h1>
 				<Row>
 					<Col xs={8}>
-						<Share />
+						<Share urlID={this.state.id}/>
 					</Col>
 					<Col xs={4}>
 						<Collaborators 

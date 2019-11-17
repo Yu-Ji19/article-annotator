@@ -9,7 +9,7 @@ class Share extends Component {
 		//copy button
 		if (buttonID === 'copyButton') {
 			//set what you want to copy here
-			let copyContent = "monkeys "
+			let copyContent = "https://article-annotator.cloudapps.unc.edu/" + this.props.urlID;
 			this.copyToClipboard(copyContent);
 			alert("'" + copyContent + "' was copied to the clip board")
 

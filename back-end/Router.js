@@ -41,7 +41,7 @@ var scrape = html => {
     // '*' selects all elements 
 		$('*').each(function () {
 			if($(this).get(0).tagName == 'p'){
-				content += $(this).text() + "<br />" ;
+				content += "<p>" + $(this).text() +  "</p>" //"<br />" ;
 			}
       else if($(this).get(0).tagName == 'h1'
         || $(this).get(0).tagName == 'h2'
@@ -49,10 +49,10 @@ var scrape = html => {
         || $(this).get(0).tagName == 'h4'
         || $(this).get(0).tagName == 'h5'
         || $(this).get(0).tagName == 'h6'){
-          content += $(this) .text() + "<br />" ;
+          content += $(this)//.text() + "<br />" ;
         }
-        if($(this).get(0).tagName == 'img'){
-          content += $(this) ;
+        else if($(this).get(0).tagName == 'img'){
+          content += $(this) + "<br />" ;
         }
         //add whatever tagname following above format
     });
@@ -73,7 +73,7 @@ Router.post("/api/create", (req, res) => {
     if (!err && response.statusCode == 200) {
       body.content = scrape(html);
       var workspace = new Workspace(body);
-      console.log(body);
+      //console.log(body);
       workspace
         .save()
         .then(() => {
