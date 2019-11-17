@@ -17,6 +17,7 @@ class Workspace extends Component {
 			id: this.props.match.params.id,
 			date: null,
 			original_url: null,
+			content: "",
 			collabName: "stupidFish",
 			annotations: null,
 			collaborators: null,
@@ -40,7 +41,8 @@ class Workspace extends Component {
 			this.setState({
 				id: this.state.id,
 				date: data.date,
-				original_url: data.original_url
+				original_url: data.original_url,
+				content: data.content
 			});
 		})
 		);
@@ -130,7 +132,7 @@ class Workspace extends Component {
 				</Row>
 				<Row>
 					<Col xs={8}>
-						<Website />
+						<Website content={this.state.content}/>
 					</Col>
 					<Col xs={4}>
 						<AnnotationList 
