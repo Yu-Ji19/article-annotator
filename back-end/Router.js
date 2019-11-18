@@ -3,7 +3,7 @@ const uuidv4 = require("uuid/v4");
 const cheerio = require("cheerio");
 const request = require("request");
 
-let URL = require("./models/URL");
+//let URL = require("./models/URL");
 let Workspace = require("./models/Workspace");
 let Annotation = require("./models/Annotation");
 
