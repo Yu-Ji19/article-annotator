@@ -8,6 +8,7 @@ import Collaborators from './Collaborators'
 import Share from './Share'
 import Website from './Website'
 import AnnotationList from './AnnotationList'
+import rangy from "../util/rangy"
 
 const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
@@ -21,7 +22,7 @@ class Workspace extends Component {
 			content: "",
 			collabName: "stupidFish",
 			annotations: null,
-			collaborators: undefined,
+			collaborators: null,
 			nameSet: false,
 			pendingAnnotation: false
 		}
@@ -68,7 +69,7 @@ class Workspace extends Component {
 			}
 		}).then((response) => response.json().then(data => {
 			this.setState({
-				collaborators: Object.entries(data)
+				collaborators: data
 			});
 		})
 		);
@@ -84,14 +85,19 @@ class Workspace extends Component {
 		})	
 	}
 
+
 	createAnnotation(annotation) {
 		var selectedText;
 		if (window.getSelection) { 
 			selectedText = window.getSelection(); 
 		} 
 		if(selectedText.rangeCount>0){
-			document.execCommand("backColor", true, "green");
-			console.log("turned green");
+			var range = selectedText.getRangeAt(0);
+			var nodes = rangy.getRangeSelectedNodes(range);
+			
+			nodes.forEach((node)=>{
+				document.getElementById(node.id).classList.add("highlight-blue");
+			})
 		}
 	
 
@@ -102,20 +108,16 @@ class Workspace extends Component {
 	}
 
 	finishAnnotation(){
-		var newCollaborators = [];
+		var newCollaborators = this.state.collaborators;
 		var collabName = this.state.collabName;
-		if(!this.state.collaborators || !this.state.collaborators[this.state.collabName]){
-			newCollaborators = this.state.collaborators;
-			newCollaborators.push([collabName,1]);
+		console.log(this.state.collaborators);
+		if(!this.state.collaborators || !this.state.collaborators[collabName]){
+			newCollaborators[collabName] = 1;
 		}
 		else{
-			newCollaborators = this.state.collaborators.map(([name, freq])=>{
-				if(name === this.state.collabName){
-					return [name, freq+1];
-				}
-				return [name, freq];
-			});
+			newCollaborators[collabName] += 1;
 		}
+		console.log(newCollaborators);
 		this.setState({
 			pendingAnnotation:false,
 			collaborators: newCollaborators

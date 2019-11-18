@@ -21,8 +21,8 @@ class Collaborators extends Component {
 	}
 
 	render() {
-		var collaborators = this.props.collaborators? this.props.collaborators.map(([name, freq], i)=>{
-			return <li>{name}:{freq}</li>
+		var collaborators = this.props.collaborators? Object.keys(this.props.collaborators).map((name, i)=>{
+			return <li>{name}:{this.props.collaborators[name]}</li>
 		}):null;
 		const text = this.props.nameSet ?
 			<Fragment style = {style}>[{this.state.name}]</Fragment>
