@@ -14,14 +14,16 @@ class Collaborators extends Component {
 		};
 		this.handleChange = this.handleChange.bind(this);
 	}
-	
+
 
 	handleChange(e) {
 		this.setState({ name: e.target.value })
 	}
 
 	render() {
-		let collaborators = this.props.collaborators;
+		var collaborators = this.props.collaborators? this.props.collaborators.map(([name, freq], i)=>{
+			return <li>{name}:{freq}</li>
+		}):null;
 		const text = this.props.nameSet ?
 			<Fragment style = {style}>[{this.state.name}]</Fragment>
 			:
