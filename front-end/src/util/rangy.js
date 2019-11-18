@@ -43,7 +43,34 @@ const rangy = {
 		}
 	
 		return rangeNodes;
-	}
+    },
+    
+    compress: (range)=>{
+        var start = range.startContainer.parentElement;
+        var end = range.endContainer.parentElement;
+        return {start:start.id, end:end.id};
+    },
+
+    highlight: (range, color)=>{
+        var nodes = rangy.getRangeSelectedNodes(range);
+        nodes.forEach(node=>{
+            if(node.id){
+                document.getElementById(node.id).classList.add("highlight-" + color);
+            }
+        })
+    },
+
+    addTarget: (range, id)=>{
+        var nodes = rangy.getRangeSelectedNodes(range);
+        console.log(nodes);
+        nodes.forEach(node=>{
+            var annotations = node.getAttribute("data-annotations");
+            if(!annotations){
+                annotations = "";
+            }
+            document.getElementById(node.id).setAttribute("data-annotations", annotations+id+",");
+        })
+    },
 }
 
 export default rangy;

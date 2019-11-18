@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
 let Annotation = new Schema({
 
 	// URL TO THE WORKSPACE
@@ -30,6 +31,14 @@ let Annotation = new Schema({
 	content: {
 		type: String
 	},
+
+	range: {
+		type: Object
+	},
+
+	color:{
+		type: String
+	}
 
 	// LOCATION OF ANNOTATION
 	/* 

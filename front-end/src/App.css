@@ -2,25 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
-}
-
 .content {
   text-align: left;
 }
@@ -30,6 +11,25 @@
   margin: 20px;
 }
 
-.highlight-blue {
+.highlight-gray {
   background-color:rgba(120, 120, 120, 0.5);
+}
+
+.highlight-red {
+  background-color:red;
+}
+.highlight-green {
+  background-color:green;
+}
+.highlight-yellow {
+  background-color:yellow;
+}
+
+.highlight-green.highlight-gray{
+  background-color: #09d3ac;
+  
+}
+
+[class^="highlight-"]:hover {
+  cursor:pointer;
 }
