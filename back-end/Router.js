@@ -37,22 +37,25 @@ res.body = {
 var scrape = html => {
   let $ = cheerio.load(html);
   let content = "";
+  let contentArray = [];
     // '*' selects all elements 
-		$('*').each(function () {
-			if($(this).get(0).tagName == 'p'){
-				content += "<p>" + $(this).text() +  "</p>" //"<br />" ;
-			}
-      else if($(this).get(0).tagName == 'h1'
-        || $(this).get(0).tagName == 'h2'
-        || $(this).get(0).tagName == 'h3'
-        || $(this).get(0).tagName == 'h4'
-        || $(this).get(0).tagName == 'h5'
-        || $(this).get(0).tagName == 'h6'){
-          content += $(this)//.text() + "<br />" ;
-        }
-        else if($(this).get(0).tagName == 'img'){
-          content += $(this) + "<br />" ;
-        }
+	$('*').each(function (i, e) {
+		if($(this).get(0).tagName == 'p'){
+      var btag = $(this).find('b').length;
+      console.log(btag);
+			content += "<p>" + $(this).html() +  "</p>" //"<br />" ;
+		}
+    else if($(this).get(0).tagName == 'h1'
+      || $(this).get(0).tagName == 'h2'
+      || $(this).get(0).tagName == 'h3'
+      || $(this).get(0).tagName == 'h4'
+      || $(this).get(0).tagName == 'h5'
+      || $(this).get(0).tagName == 'h6'){
+      content += $(this)//.text() + "<br />" ;
+    }
+    else if($(this).get(0).tagName == 'img'){
+      content += $(this) + "<br />" ;
+    }
         //add whatever tagname following above format
     });
     
@@ -63,8 +66,8 @@ Router.post("/api/create", (req, res) => {
   const id = uuidv4();
   console.log("generated uuid: " + id);
   var body = req.body;
-  console.log(req);
-  console.log(req.body);
+  //console.log(req);
+  //console.log(req.body);
   body.id = id;
 
   // parse the webpage
@@ -110,7 +113,7 @@ Router.get("/api/workspace/:id", (req, res) => {
       res.send({ message: "Invalid URL" });
     } else {
       console.log("found workspace");
-      console.log(workspace);
+      //console.log(workspace);
       res.send(workspace);
     }
   });

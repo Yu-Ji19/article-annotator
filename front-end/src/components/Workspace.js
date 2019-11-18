@@ -37,7 +37,7 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
-			console.log(data);
+			//console.log(data);
 			this.setState({
 				id: this.state.id,
 				date: data.date,
@@ -54,7 +54,7 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			},
 		}).then((response) => response.json().then(data => {
-			console.log(data);
+			//console.log(data);
 			this.setState({
 				annotations: data.annotations.map(v => ({...v, finished: true}))
 			});
@@ -68,8 +68,8 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
-			console.log("collaborator")
-			console.log(data);
+			//console.log("collaborator")
+			//console.log(data);
 			this.setState({
 				
 				collaborators: Object.entries(data)
@@ -96,7 +96,7 @@ class Workspace extends Component {
 	}
 
 	finishAnnotation(){
-		console.log(this.state.collaborators);
+		//console.log(this.state.collaborators);
 		var newCollaborators = this.state.collaborators.map(([name, freq])=>{
 			if(name === this.state.collabName){
 				return [name, freq+1];
@@ -110,7 +110,7 @@ class Workspace extends Component {
 	}
 
 	render() {
-		console.log(this.state);
+		//console.log(this.state);
 		var collaborators = this.state.collaborators? this.state.collaborators.map(([name, freq])=>{
 			return <li>{name}:{freq}</li>
 		}):[];
