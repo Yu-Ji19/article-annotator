@@ -31,5 +31,9 @@
 }
 
 [class^="highlight-"]:hover {
-  cursor:pointer;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }

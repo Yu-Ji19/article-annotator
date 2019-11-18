@@ -1,3 +1,5 @@
+import $ from "jquery"
+
 const rangy = {
 
     nextNode:(node) => {
@@ -55,22 +57,42 @@ const rangy = {
         var nodes = rangy.getRangeSelectedNodes(range);
         nodes.forEach(node=>{
             if(node.id){
-                document.getElementById(node.id).classList.add("highlight-" + color);
+                $("#" + node.id).addClass("highlight-" + color);
             }
         })
     },
 
     addTarget: (range, id)=>{
         var nodes = rangy.getRangeSelectedNodes(range);
-        console.log(nodes);
         nodes.forEach(node=>{
-            var annotations = node.getAttribute("data-annotations");
+            var annotations = $("#" + node.id).attr("data-annotations");
             if(!annotations){
                 annotations = "";
             }
-            document.getElementById(node.id).setAttribute("data-annotations", annotations+id+",");
+            $("#" + node.id).attr("data-annotations", annotations+id+",");
         })
     },
+
+    addClick: (range)=>{
+        var nodes = rangy.getRangeSelectedNodes(range);
+        nodes.forEach(node=>{
+            var ids = node.getAttribute("data-annotations").split(",");
+            if(ids){ // CAN ACTUALLY ASSUME ANNOTATIONS WILL NEVER BE NULL 
+                $("#" + node.id).on("click", ()=>{
+                    $(".annotation").each((i, ele)=>{
+                        
+            
+                        if(!ids.includes($(ele).attr("id"))){
+                            $(ele).addClass("hidden");
+                        }else{
+                            $(ele).removeClass("hidden");
+                        }
+                    })
+                    
+                })
+            }
+        })
+    }
 }
 
 export default rangy;

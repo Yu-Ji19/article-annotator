@@ -51,7 +51,7 @@ class Annotation extends Component {
 			</Fragment>
 
 		return (
-			<Container style={style} id={this.state.id}>
+			<Container style={style} id={this.state.id} className="annotation">
 				<h5>{this.state.name}</h5>
 				{content}
 			</Container>

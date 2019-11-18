@@ -61,6 +61,7 @@ class Workspace extends Component {
 				range.setEnd(endNode,0);
 				rangy.highlight(range, annotation.color);
 				rangy.addTarget(range, annotation.id);
+				rangy.addClick(range);
 			})
 			this.setState({
 				annotations: annotations.map(v => ({...v, finished: true}))
@@ -75,9 +76,6 @@ class Workspace extends Component {
 			});
 		})
 		);
-
-		
-		
 	}
 
 	addCollabName(name){
@@ -119,6 +117,7 @@ class Workspace extends Component {
 	finishAnnotation(annotation){
 		var range = rangy.compress(this.state.pendingRange);
 		rangy.addTarget(this.state.pendingRange, annotation.id);
+		rangy.addClick(this.state.pendingRange);
 		fetch(hostname + '/api/annotation/insert', {
 			method: 'POST',
 			headers: {
