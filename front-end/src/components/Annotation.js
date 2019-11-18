@@ -3,8 +3,6 @@ import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
-const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
-
 class Annotation extends Component {
 	constructor(props) {
 		super(props);
@@ -13,7 +11,8 @@ class Annotation extends Component {
 			content: props.content,
 			finished: props.finished,
 			workspace: props.workspace,
-			id: props.id
+			id: props.id,
+			color:props.color
 		}
 		this.handleChange = this.handleChange.bind(this);
 	}
@@ -28,29 +27,14 @@ class Annotation extends Component {
 	}
 
 	submitAnnotation() {
-		fetch(hostname + '/api/annotation/insert', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				workspace: this.state.workspace,
-				id: this.state.id,
-				name: this.state.name,
-				date: 'now',
-				content: this.state.content
-			})
-		}).then((response) => {
-			this.setState({
-				finished: true
-			})
-		});
-		this.props.finishAnnotation();
+		this.props.finishAnnotation(this.state);
+		this.setState({
+			finished: true
+		})
 	}
 
 	render() {
-		const text = this.state.finished ?
+		const content = this.state.finished ?
 			<p>{this.state.content}</p> :
 			<Fragment>
 				<Form.Control
@@ -67,9 +51,9 @@ class Annotation extends Component {
 			</Fragment>
 
 		return (
-			<Container style={style}>
+			<Container style={style} id={this.state.id} className="annotation">
 				<h5>{this.state.name}</h5>
-				{text}
+				{content}
 			</Container>
 		);
 	}
