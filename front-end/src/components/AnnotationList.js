@@ -9,7 +9,6 @@ import Annotation from "./Annotation"
 class AnnotationList extends Component {
 	
 	render() {
-		console.log(this.props.annotations);
 		const annotations = this.props.annotations? 
 		<Container>
 			{this.props.annotations.map((annotation) => 
@@ -21,11 +20,13 @@ class AnnotationList extends Component {
 					content={annotation.content}
 					finished={annotation.finished}
 					finishAnnotation={this.props.finishAnnotation}
+					color={annotation.color}
 				/>
 			)}
 		</Container> 
 		:
 		<Container/>
+		
 		return (
 			<Container>
 				<Button
@@ -40,6 +41,7 @@ class AnnotationList extends Component {
 								name: this.props.name,
 								content: "",
 								finished: false,
+								color: this.props.color
 							})
 						}}
 				>

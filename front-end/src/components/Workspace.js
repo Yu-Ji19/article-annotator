@@ -8,6 +8,11 @@ import Collaborators from './Collaborators'
 import Share from './Share'
 import Website from './Website'
 import AnnotationList from './AnnotationList'
+import NameInput from './NameInput'
+import ColorSelection from "./ColorSelection"
+
+import rangy from "../util/rangy"
+import req from "../util/req"
 
 const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
@@ -21,23 +26,21 @@ class Workspace extends Component {
 			content: "",
 			collabName: "stupidFish",
 			annotations: null,
-			collaborators: undefined,
+			collaborators: null,
 			nameSet: false,
-			pendingAnnotation: false
+			pendingAnnotation: false,
+			pendingRange: null,
+			color: "gray"
 		}
 		this.createAnnotation = this.createAnnotation.bind(this);
 		this.addCollabName = this.addCollabName.bind(this);
 		this.finishAnnotation = this.finishAnnotation.bind(this);
+		this.setColor = this.setColor.bind(this);
 	}
 
 	componentDidMount() {
-		fetch(hostname + '/api/workspace/' + this.state.workspace, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			}
-		}).then((response) => response.json().then(data => {
+		req.get(hostname + '/api/workspace/' + this.state.workspace)
+		.then((response) => response.json().then(data => {
 			this.setState({
 				id: this.state.id,
 				date: data.date,
@@ -47,34 +50,32 @@ class Workspace extends Component {
 		})
 		);
 
-		fetch(hostname + '/api/annotation/all/' + this.state.workspace, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-		}).then((response) => response.json().then(data => {
+		req.get(hostname + '/api/annotation/all/' + this.state.workspace)
+		.then((response) => response.json().then(data => {
+			var annotations = data.annotations;
+			annotations.forEach(annotation=>{
+				var range = new Range();
+				var startNode = document.getElementById(annotation.range.start);
+				var endNode = document.getElementById(annotation.range.end);
+				range.setStart(startNode,0);
+				range.setEnd(endNode,0);
+				rangy.highlight(range, annotation.color);
+				rangy.addTarget(range, annotation.id);
+				rangy.addClick(range);
+			})
 			this.setState({
-				annotations: data.annotations.map(v => ({...v, finished: true}))
+				annotations: annotations.map(v => ({...v, finished: true}))
 			});
 		})
 		);
 
-		fetch(hostname + '/api/collaborators/' + this.state.workspace, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			}
-		}).then((response) => response.json().then(data => {
+		req.get(hostname + '/api/collaborators/' + this.state.workspace)
+		.then((response) => response.json().then(data => {
 			this.setState({
-				collaborators: Object.entries(data)
+				collaborators: data
 			});
 		})
 		);
-
-		//random name generate here
-
 	}
 
 	addCollabName(name){
@@ -84,67 +85,84 @@ class Workspace extends Component {
 		})	
 	}
 
+	setColor(color){
+		this.setState({color});
+	}
+
+
 	createAnnotation(annotation) {
+		
 		var selectedText;
+		var range;
 		if (window.getSelection) { 
 			selectedText = window.getSelection(); 
 		} 
 		if(selectedText.rangeCount>0){
-			document.execCommand("backColor", true, "green");
-			console.log("turned green");
+			range = selectedText.getRangeAt(0);
+			if(range.collapsed){
+				return;
+			}
+			rangy.highlight(range, this.state.color);
+
 		}
-	
+		//add range validation here
 
 		this.setState({
 			annotations: [...this.state.annotations, annotation],
-			pendingAnnotation:true
+			pendingAnnotation:true, 
+			pendingRange:range
 		})
 	}
 
-	finishAnnotation(){
-		var newCollaborators = [];
-		var collabName = this.state.collabName;
-		if(!this.state.collaborators || !this.state.collaborators[this.state.collabName]){
-			newCollaborators = this.state.collaborators;
-			newCollaborators.push([collabName,1]);
-		}
-		else{
-			newCollaborators = this.state.collaborators.map(([name, freq])=>{
-				if(name === this.state.collabName){
-					return [name, freq+1];
-				}
-				return [name, freq];
-			});
-		}
-		this.setState({
-			pendingAnnotation:false,
-			collaborators: newCollaborators
-		})
+	finishAnnotation(annotation){
+		var range = rangy.compress(this.state.pendingRange);
+		rangy.addTarget(this.state.pendingRange, annotation.id);
+		rangy.addClick(this.state.pendingRange);
+		fetch(hostname + '/api/annotation/insert', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				...annotation,
+				range
+			})
+		}).then((response) => {
+			// add response validation
+			var newCollaborators = this.state.collaborators;
+			var collabName = this.state.collabName;
+			newCollaborators[collabName] = !this.state.collaborators || !this.state.collaborators[collabName]? 1: newCollaborators[collabName] + 1;
+			this.setState({
+				pendingAnnotation:false,
+				collaborators: newCollaborators,
+				pendingRange: null,
+			})
+		});
+		
 	}
 
 	render() {
 		
 		return (
 			<Container>
-				<h1>{this.state.original_url}</h1>
 				<Row>
+					<h1>{this.state.original_url}</h1>
 					<Col xs={8}>
 						<Share />
-					</Col>
-					<Col xs={4}>
-						<Collaborators 
-							Cid={this.state.id}
-							addCollabName={this.addCollabName}
-							collaborators={this.state.collaborators}
-							nameSet={this.state.nameSet}
-						/>
-					</Col>
-				</Row>
-				<Row>
-					<Col xs={8}>
 						<Website content={this.state.content}/>
 					</Col>
 					<Col xs={4}>
+						<NameInput
+							nameSet={this.state.nameSet}
+							addCollabName={this.addCollabName}
+						/>
+						<ColorSelection
+							onClick={this.setColor}
+						/>
+						<Collaborators 
+							collaborators={this.state.collaborators}
+						/>
 						<AnnotationList 
 							workspace={this.state.workspace} 
 							name={this.state.collabName}
@@ -152,7 +170,8 @@ class Workspace extends Component {
 							finishAnnotation = {this.finishAnnotation}
 							annotations = {this.state.annotations}
 							pendingAnnotation = {this.state.pendingAnnotation}
-						/>
+							color = {this.state.color}
+						/>	
 					</Col>
 				</Row>
 			</Container>
