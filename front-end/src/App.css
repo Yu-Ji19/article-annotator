@@ -29,3 +29,7 @@
   float: left;
   margin: 20px;
 }
+
+.highlight-blue {
+  background-color:rgba(120, 120, 120, 0.5);
+}

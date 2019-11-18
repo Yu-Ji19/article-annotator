@@ -3,7 +3,6 @@ const uuidv4 = require("uuid/v4");
 const cheerio = require("cheerio");
 const request = require("request");
 
-let URL = require("./models/URL");
 let Workspace = require("./models/Workspace");
 let Annotation = require("./models/Annotation");
 
@@ -40,7 +39,10 @@ var scrape = html => {
     // '*' selects all elements 
 		$('*').each(function () {
 			if($(this).get(0).tagName == 'p'){
-				content += $(this).text() + "<br />" ;
+        var html = $(this).text().split(" ").map((word)=>{
+          return "<span id=\"" + uuidv4() + "\">" + word + " </span>";
+        })
+				content += html.join("") + "<br />" ;
 			}
       else if($(this).get(0).tagName == 'h1'
         || $(this).get(0).tagName == 'h2'
@@ -48,7 +50,7 @@ var scrape = html => {
         || $(this).get(0).tagName == 'h4'
         || $(this).get(0).tagName == 'h5'
         || $(this).get(0).tagName == 'h6'){
-          content += $(this) .text() + "<br />" ;
+          content += $(this).text() + "<br />" ;
         }
         if($(this).get(0).tagName == 'img'){
           content += $(this) ;
@@ -63,8 +65,6 @@ Router.post("/api/create", (req, res) => {
   const id = uuidv4();
   console.log("generated uuid: " + id);
   var body = req.body;
-  console.log(req);
-  console.log(req.body);
   body.id = id;
 
   // parse the webpage
@@ -109,7 +109,6 @@ Router.get("/api/workspace/:id", (req, res) => {
       res.send({ message: "Invalid URL" });
     } else {
       console.log("found workspace");
-      console.log(workspace);
       res.send(workspace);
     }
   });
