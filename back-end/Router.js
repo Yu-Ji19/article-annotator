@@ -36,26 +36,34 @@ res.body = {
 var scrape = html => {
   let $ = cheerio.load(html);
   let content = "";
-  let contentArray = [];
     // '*' selects all elements 
 		$('*').each(function () {
-			if($(this).get(0).tagName == 'p'){
+      let tagname = $(this).get(0).tagName;
+			if(tagname == 'p'){
         var html = $(this).text().split(" ").map((word)=>{
           return "<span id=\"" + uuidv4() + "\">" + word + " </span>";
         })
 				content += html.join("") + "<br />" ;
 			}
-      else if($(this).get(0).tagName == 'h1'
+      else if(tagname == 'h1'
         || $(this).get(0).tagName == 'h2'
         || $(this).get(0).tagName == 'h3'
         || $(this).get(0).tagName == 'h4'
         || $(this).get(0).tagName == 'h5'
         || $(this).get(0).tagName == 'h6'){
-          content += $(this).text() + "<br />" ;
+          content += $(this) + "<br />" ;
         }
-        if($(this).get(0).tagName == 'img'){
-          content += $(this) ;
+      else if(tagname == 'img'){
+        let width = Number($(this).attr('width'));
+        let height = Number($(this).attr('height'));
+        if(width < 20 || height < 20){
+          $(this).remove()
+          content += $(this).html() + "<br />" ;
+        }else{
+          content += $(this) + "<br />" ;
         }
+         
+      }
         //add whatever tagname following above format
     });
     
