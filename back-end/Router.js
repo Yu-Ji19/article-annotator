@@ -46,21 +46,36 @@ var scrape = html => {
 				content += html.join("") + "<br />" ;
 			}
       else if(tagname == 'h1'
-        || $(this).get(0).tagName == 'h2'
-        || $(this).get(0).tagName == 'h3'
-        || $(this).get(0).tagName == 'h4'
-        || $(this).get(0).tagName == 'h5'
-        || $(this).get(0).tagName == 'h6'){
-          content += $(this) + "<br />" ;
+        || tagname == 'h2'
+        || tagname == 'h3'
+        || tagname == 'h4'
+        || tagname == 'h5'
+        || tagname == 'h6'){
+          let text = $(this).text();
+          //build header tag here
+          let header = "<" + tagname + ">" + text + "</" + tagname + ">";
+          content += header + "<br />" ;
         }
       else if(tagname == 'img'){
         let width = Number($(this).attr('width'));
         let height = Number($(this).attr('height'));
+        let src = $(this).attr('src');
+        let srcset = $(this).attr('srcset');
+        let alt = $(this).attr('alt');
+
+        //set what width and height we want to remove 
         if(width < 20 || height < 20){
           $(this).remove()
-          content += $(this).html() + "<br />" ;
+          content += "<br />" ;
         }else{
-          content += $(this) + "<br />" ;
+          //build image tag here
+          let image = "<img alt=" + alt
+          + " src=" + src
+          + " width=" + width
+          + " height=" + height
+          + " srcset=" + srcset
+          + ">";
+          content += image + "<br />" ;
         }
          
       }
