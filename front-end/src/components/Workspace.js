@@ -38,10 +38,6 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
-<<<<<<< HEAD
-			//console.log(data);
-=======
->>>>>>> 87a498da42374de3124f4584e77525ab97edc703
 			this.setState({
 				id: this.state.id,
 				date: data.date,
@@ -58,10 +54,6 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			},
 		}).then((response) => response.json().then(data => {
-<<<<<<< HEAD
-			//console.log(data);
-=======
->>>>>>> 87a498da42374de3124f4584e77525ab97edc703
 			this.setState({
 				annotations: data.annotations.map(v => ({...v, finished: true}))
 			});
@@ -75,11 +67,6 @@ class Workspace extends Component {
 				'Content-Type': 'application/json'
 			}
 		}).then((response) => response.json().then(data => {
-<<<<<<< HEAD
-			//console.log("collaborator")
-			//console.log(data);
-=======
->>>>>>> 87a498da42374de3124f4584e77525ab97edc703
 			this.setState({
 				collaborators: Object.entries(data)
 			});
@@ -115,15 +102,6 @@ class Workspace extends Component {
 	}
 
 	finishAnnotation(){
-<<<<<<< HEAD
-		//console.log(this.state.collaborators);
-		var newCollaborators = this.state.collaborators.map(([name, freq])=>{
-			if(name === this.state.collabName){
-				return [name, freq+1];
-			}
-			return [name, freq];
-		});
-=======
 		var newCollaborators = [];
 		var collabName = this.state.collabName;
 		if(!this.state.collaborators || !this.state.collaborators[this.state.collabName]){
@@ -138,7 +116,6 @@ class Workspace extends Component {
 				return [name, freq];
 			});
 		}
->>>>>>> 87a498da42374de3124f4584e77525ab97edc703
 		this.setState({
 			pendingAnnotation:false,
 			collaborators: newCollaborators
@@ -146,14 +123,7 @@ class Workspace extends Component {
 	}
 
 	render() {
-<<<<<<< HEAD
-		//console.log(this.state);
-		var collaborators = this.state.collaborators? this.state.collaborators.map(([name, freq])=>{
-			return <li>{name}:{freq}</li>
-		}):[];
-=======
 		
->>>>>>> 87a498da42374de3124f4584e77525ab97edc703
 		return (
 			<Container>
 				<h1>{this.state.original_url}</h1>

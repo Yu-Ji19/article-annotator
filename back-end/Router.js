@@ -41,7 +41,8 @@ var scrape = html => {
     // '*' selects all elements 
 	$('*').each(function (i, e) {
 		if($(this).get(0).tagName == 'p'){
-      var btag = $(this).find('b').length;
+
+      var btag = $(this).find('a');
       console.log(btag);
 			content += "<p>" + $(this).html() +  "</p>" //"<br />" ;
 		}
@@ -75,10 +76,6 @@ Router.post("/api/create", (req, res) => {
     if (!err && response.statusCode == 200) {
       body.content = scrape(html);
       var workspace = new Workspace(body);
-<<<<<<< HEAD
-      //console.log(body);
-=======
->>>>>>> 87a498da42374de3124f4584e77525ab97edc703
       workspace
         .save()
         .then(() => {
