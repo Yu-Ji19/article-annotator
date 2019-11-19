@@ -29,6 +29,8 @@
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.3",
     "request": "2.88.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "nodemailer": "^6.3.1",
+    "nodemailer-smtp-transport": "2.7.4"
   }
 }

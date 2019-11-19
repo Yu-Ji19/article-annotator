@@ -2,23 +2,45 @@ import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
 import DropdownButton from "react-bootstrap/DropdownButton"
 import Dropdown from "react-bootstrap/Dropdown"
+import req from "../util/req"
 import jsPDF from 'jspdf'
 import $ from 'jquery'
 import html2canvas from 'html2canvas';
 import nodemailer from 'nodemailer'
 import smtpTransport from 'nodemailer-smtp-transport'
 
-
+const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
 
 class Share extends Component {
+
+	sendEmail(userEmail, copiedURL){
+		fetch(hostname + '/api/email', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email: userEmail,
+				url: copiedURL
+			})
+		}).then((response) => {
+			// add response validation
+			alert("Your email was sent!");
+			
+		});
+
+	}
+
+
 	
 	onClickHandler = event => {
 		const buttonID = event.target.id;
 		//copy button
 		if (buttonID === 'copyButton') {
 			//set what you want to copy here
-			let copyContent = "https://article-annotator.cloudapps.unc.edu/" + this.props.urlID;
+			let copyContent = hostname + "/" + this.props.urlID;
 			this.copyToClipboard(copyContent);
 			alert("'" + copyContent + "' was copied to the clip board")
 
@@ -29,12 +51,14 @@ class Share extends Component {
 		}
 		//email button
 		else if (buttonID === 'emailButton') {
-			//window.open('mailto:test@example.com');
-			var name = window.prompt("Enter your email","");
-			console.log(name)
-			alert("Email clicked")
+			let inputEmail = window.prompt("Enter your email","");
+			let url = hostname + "/" + this.props.urlID;
+			this.sendEmail(inputEmail, url);
 		}
+
+			
 	}
+	
 
 
 	copyToClipboard = text => {

@@ -15,9 +15,7 @@
     "react-scripts": "^3.2.0",
     "uuid": "^3.3.3",
     "jspdf": "^1.5.3",
-    "html2canvas": "^1.0.0-rc.5",
-    "nodemailer": "^6.3.1",
-    "nodemailer-smtp-transport": "2.7.4"
+    "html2canvas": "^1.0.0-rc.5"
   },
   "scripts": {
     "start": "react-scripts start",

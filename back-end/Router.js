@@ -5,6 +5,7 @@ const request = require("request");
 
 let Workspace = require("./models/Workspace");
 let Annotation = require("./models/Annotation");
+let SendMail = require("./sendEmail")
 
 // DEV PURPOSE; GET THE LIST OF ALL WORKSPACES
 Router.get("/api/get-all-workspace", (req, res) => {
@@ -84,6 +85,23 @@ var scrape = html => {
     
   return content;
 };
+
+
+Router.post("/api/email", (req, res) => {
+  console.log('receiving data ...');
+  console.log('body is ',req.body);
+  console.log("email is:" + req.body.email)
+  console.log("url is: " + req.body.url)
+
+  let userEmail = req.body.email;
+  let url = req.body.url;
+  SendMail(userEmail, url);
+  res.send(req.body);
+});
+
+
+
+
 Router.post("/api/create", (req, res) => {
   console.log("try to create workspace");
   const id = uuidv4();
