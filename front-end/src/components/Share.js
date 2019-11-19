@@ -2,8 +2,17 @@ import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
 import DropdownButton from "react-bootstrap/DropdownButton"
 import Dropdown from "react-bootstrap/Dropdown"
+import jsPDF from 'jspdf'
+import $ from 'jquery'
+import html2canvas from 'html2canvas';
+import nodemailer from 'nodemailer'
+import smtpTransport from 'nodemailer-smtp-transport'
+
+
+
 
 class Share extends Component {
+	
 	onClickHandler = event => {
 		const buttonID = event.target.id;
 		//copy button
@@ -16,10 +25,11 @@ class Share extends Component {
 		}
 		//download button
 		else if (buttonID === 'downloadButton') {
-			alert("download clicked")
+			window.print();	
 		}
 		//email button
 		else if (buttonID === 'emailButton') {
+			//window.open('mailto:test@example.com');
 			alert("Email clicked")
 		}
 	}
