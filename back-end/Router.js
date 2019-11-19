@@ -88,11 +88,6 @@ var scrape = html => {
 
 
 Router.post("/api/email", (req, res) => {
-  console.log('receiving data ...');
-  console.log('body is ',req.body);
-  console.log("email is:" + req.body.email)
-  console.log("url is: " + req.body.url)
-
   let userEmail = req.body.email;
   let url = req.body.url;
   SendMail(userEmail, url);

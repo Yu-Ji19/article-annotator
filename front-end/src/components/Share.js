@@ -51,9 +51,16 @@ class Share extends Component {
 		}
 		//email button
 		else if (buttonID === 'emailButton') {
-			let inputEmail = window.prompt("Enter your email","");
 			let url = hostname + "/" + this.props.urlID;
-			this.sendEmail(inputEmail, url);
+			let inputEmail = window.prompt("Enter your email","");
+			//test for invalid emails
+			if(inputEmail.search("@") === -1 || inputEmail === ""){
+				alert("Invalid Email. Please Try Again.")
+			}else{
+				this.sendEmail(inputEmail, url);
+			}
+
+			
 		}
 
 			
