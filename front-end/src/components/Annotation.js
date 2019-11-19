@@ -11,19 +11,17 @@ class Annotation extends Component {
 			id: props.id,
 			color:props.color,
 			range:props.range,
-			selected:false
-			// add range here for reverse pointing
 		}
+
 		
 	}
-	render() {
-		const content = <p>{this.state.content}</p>
-			
 
+
+	render() {
 		return (
-			<Container id={this.state.id} className="annotation">
+			<Container id={this.state.id} className="annotation" onClick={()=>{this.props.selectAnnotation(this.state)}}>
 				<h5>{this.state.name}</h5>
-				{content}
+				<p>{this.state.content}</p>
 			</Container>
 		);
 	}

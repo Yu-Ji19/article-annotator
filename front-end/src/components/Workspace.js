@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import $ from "jquery"
+import uuidv4 from "uuid/v4"
 
 
 import Collaborators from './Collaborators'
@@ -17,6 +18,7 @@ import CreateButton from "./CreateButton"
 import rangy from "../util/rangy"
 import req from "../util/req"
 
+
 const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
 class Workspace extends Component {
@@ -24,21 +26,23 @@ class Workspace extends Component {
 		super(props);
 		this.state = {
 			workspace: this.props.match.params.id,
-			date: null,
+			date: null,   // fix date 
 			original_url: null,
 			content: "",
 			collabName: "stupidFish",
-			annotations: null,
 			collaborators: null,
+			annotations: null,
 			nameSet: false,
-			pending: false,
+			pendingAnnotation: null,
 			pendingRange: null,
-			color: "gray"
+			color: "gray",
+			selectedAnnotation:null
 		}
 		this.createAnnotation = this.createAnnotation.bind(this);
 		this.addCollabName = this.addCollabName.bind(this);
 		this.finishAnnotation = this.finishAnnotation.bind(this);
 		this.setColor = this.setColor.bind(this);
+		this.selectAnnotation = this.selectAnnotation.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,6 +65,7 @@ class Workspace extends Component {
 				var range = new Range();
 				var startNode = document.getElementById(annotation.range.start);
 				var endNode = document.getElementById(annotation.range.end);
+				annotation.range = range;
 				range.setStart(startNode,0);
 				range.setEnd(endNode,0);
 				rangy.highlight(range, annotation.color);
@@ -75,12 +80,10 @@ class Workspace extends Component {
 			this.state.annotations.forEach((annotation)=>{
 				$("#"+annotation.id).click(this.selectAnnotation);
 			})
-			
-			
-			
 			// rangy.addClick(range);
 		})
 		);
+
 
 		req.get(hostname + '/api/collaborators/' + this.state.workspace)
 		.then((response) => response.json().then(data => {
@@ -120,7 +123,7 @@ class Workspace extends Component {
 			}
 			rangy.highlight(range, this.state.color);
 			this.setState({
-				pending:true, 
+				pendingAnnotation:annotation, 
 				pendingRange:range
 			})
 		}else{
@@ -129,7 +132,6 @@ class Workspace extends Component {
 	}
 
 	finishAnnotation(annotation){
-		console.log(annotation);
 		var range = rangy.compress(this.state.pendingRange);
 		rangy.addTarget(this.state.pendingRange, annotation.id);
 		// rangy.addClick(this.state.pendingRange);
@@ -152,7 +154,7 @@ class Workspace extends Component {
 			
 			$("#"+annotation.id).click(this.selectAnnotation);
 			this.setState({
-				pending:false,
+				pendingAnnotation:null,
 				collaborators: newCollaborators,
 				pendingRange: null,
 				annotations: [...this.state.annotations, annotation]
@@ -161,24 +163,32 @@ class Workspace extends Component {
 		
 	}
 
-	selectAnnotation(){
-		// console.log(this);
-		var selected = this.state.selected;
-		// console.log(selected);
-		if(!selected){
-			$("highlight").removeClass();
-			console.log(this.state.range);
-			rangy.highlight(this.state.range, this.state.color);
-		}else{
-
+	selectAnnotation(annotation){
+		if(annotation.type === "click"){
+			return;
 		}
-		this.setState({selected: !selected});
+		// console.log(annotation);
+		var selected = this.state.selectedAnnotation;
+		if(!selected ){
+			rangy.addOverlay(annotation.range, annotation.color);
+			this.setState({selectedAnnotation: annotation});
+		}else if(selected.id !== annotation.id){
+			rangy.addOverlay(annotation.range, annotation.color);
+			rangy.removeOverlay(selected.range, selected.color);
+			this.setState({selectedAnnotation: annotation});
+		}else{
+			rangy.removeOverlay(selected.range, selected.color);
+			this.setState({selectedAnnotation: null});
+		}
+
+
 	}
 
 	render() {
-		var pendingAnnotation = this.state.pending? 
+		var pendingAnnotation = this.state.pendingAnnotation? 
 								<PendingAnnotation
 									name={this.state.collabName}
+									id={uuidv4()}
 									finishAnnotation = {this.finishAnnotation}
 									color = {this.state.color}
 									range={this.state.pendingRange}
@@ -209,6 +219,7 @@ class Workspace extends Component {
 						<AnnotationList 
 							workspace={this.state.workspace} 
 							annotations = {this.state.annotations}
+							selectAnnotation ={this.selectAnnotation}
 						/>	
 						{pendingAnnotation}
 					</Col>
