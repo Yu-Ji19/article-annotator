@@ -19,14 +19,9 @@ const rangy = {
 	getRangeSelectedNodes: (range) =>{
 		var node = range.startContainer;
 		var endNode = range.endContainer;
-        
-
-		// Special case for a range that is contained within a single node
 		if (node === endNode) {
 			return [node];
 		}
-	
-		// Iterate nodes until we hit the end container
 		var rangeNodes = [];
 		while (node && node !== endNode) {
             node = rangy.nextNode(node);
@@ -34,8 +29,6 @@ const rangy = {
                 rangeNodes.push(node);
             }
 		}
-	
-		// Add partially selected nodes at the start of the range
         node = range.startContainer;
 		while (node && node !== range.commonAncestorContainer) {
             if(node && node.nodeName === "SPAN"){
@@ -57,6 +50,7 @@ const rangy = {
         var nodes = rangy.getRangeSelectedNodes(range);
         nodes.forEach(node=>{
             if(node.id){
+                $("#" + node.id).addClass("highlight");
                 $("#" + node.id).addClass("highlight-" + color);
             }
         })
@@ -73,26 +67,42 @@ const rangy = {
         })
     },
 
-    addClick: (range)=>{
+    addClick: (range, annotations)=>{
         var nodes = rangy.getRangeSelectedNodes(range);
+        console.log(annotations)
         nodes.forEach(node=>{
-            var ids = node.getAttribute("data-annotations").split(",");
+            var ids_str = node.getAttribute("data-annotations");
+            var ids = ids_str.split(",");
             if(ids){ // CAN ACTUALLY ASSUME ANNOTATIONS WILL NEVER BE NULL 
                 $("#" + node.id).on("click", ()=>{
                     $(".annotation").each((i, ele)=>{
-                        
-            
                         if(!ids.includes($(ele).attr("id"))){
                             $(ele).addClass("hidden");
                         }else{
                             $(ele).removeClass("hidden");
                         }
                     })
-                    
                 })
             }
         })
-    }
+    },
+
+    addOverlay: (range, color)=>{
+        var nodes = rangy.getRangeSelectedNodes(range);
+        nodes.forEach(node=>{
+            $(node).addClass("selected");
+            $(node).addClass("selected-"+color);
+        })
+    },
+
+    removeOverlay: (range, color)=>{
+        var nodes = rangy.getRangeSelectedNodes(range);
+        nodes.forEach(node=>{
+            $(node).removeClass("selected");
+            $(node).removeClass("selected-"+color);
+        })
+    },
+
 }
 
 export default rangy;
