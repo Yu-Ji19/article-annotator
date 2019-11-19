@@ -3,11 +3,6 @@ import Container from "react-bootstrap/Container"
 import DropdownButton from "react-bootstrap/DropdownButton"
 import Dropdown from "react-bootstrap/Dropdown"
 import req from "../util/req"
-import jsPDF from 'jspdf'
-import $ from 'jquery'
-import html2canvas from 'html2canvas';
-import nodemailer from 'nodemailer'
-import smtpTransport from 'nodemailer-smtp-transport'
 
 const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
 
