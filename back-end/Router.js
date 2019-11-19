@@ -5,6 +5,7 @@ const request = require("request");
 
 let Workspace = require("./models/Workspace");
 let Annotation = require("./models/Annotation");
+let SendMail = require("./sendEmail")
 
 // DEV PURPOSE; GET THE LIST OF ALL WORKSPACES
 Router.get("/api/get-all-workspace", (req, res) => {
@@ -38,28 +39,64 @@ var scrape = html => {
   let content = "";
     // '*' selects all elements 
 		$('*').each(function () {
-			if($(this).get(0).tagName == 'p'){
+      let tagname = $(this).get(0).tagName;
+			if(tagname == 'p'){
         var html = $(this).text().split(" ").map((word)=>{
           return "<span id=\"" + uuidv4() + "\">" + word + " </span>";
         })
 				content += html.join("") + "<br />" ;
 			}
-      else if($(this).get(0).tagName == 'h1'
-        || $(this).get(0).tagName == 'h2'
-        || $(this).get(0).tagName == 'h3'
-        || $(this).get(0).tagName == 'h4'
-        || $(this).get(0).tagName == 'h5'
-        || $(this).get(0).tagName == 'h6'){
-          content += $(this).text() + "<br />" ;
+      else if(tagname == 'h1'
+        || tagname == 'h2'
+        || tagname == 'h3'
+        || tagname == 'h4'
+        || tagname == 'h5'
+        || tagname == 'h6'){
+          let text = $(this).text();
+          //build header tag here
+          let header = "<" + tagname + ">" + text + "</" + tagname + ">";
+          content += header + "<br />" ;
         }
-        if($(this).get(0).tagName == 'img'){
-          content += $(this) ;
+      else if(tagname == 'img'){
+        let width = Number($(this).attr('width'));
+        let height = Number($(this).attr('height'));
+        let src = $(this).attr('src');
+        let srcset = $(this).attr('srcset');
+        let alt = $(this).attr('alt');
+
+        //set what width and height we want to remove 
+        if(width < 20 || height < 20){
+          $(this).remove()
+          content += "<br />" ;
+        }else{
+          //build image tag here
+          let image = "<img alt=" + alt
+          + " src=" + src
+          + " width=" + width
+          + " height=" + height
+          + " srcset=" + srcset
+          + ">";
+          content += image + "<br />" ;
         }
+         
+      }
         //add whatever tagname following above format
     });
     
   return content;
 };
+
+
+Router.post("/api/email", (req, res) => {
+  let userEmail = req.body.email;
+  let url = req.body.url;
+  SendMail(userEmail, url);
+  res.send(req.body);
+});
+
+
+
+
 Router.post("/api/create", (req, res) => {
   console.log("try to create workspace");
   const id = uuidv4();

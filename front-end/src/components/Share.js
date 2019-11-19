@@ -2,27 +2,65 @@ import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
 import DropdownButton from "react-bootstrap/DropdownButton"
 import Dropdown from "react-bootstrap/Dropdown"
+import req from "../util/req"
+
+const hostname = process.env["REACT_APP_APIURL"] || "http://localhost:8080";
+
 
 class Share extends Component {
+
+	sendEmail(userEmail, copiedURL){
+		fetch(hostname + '/api/email', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email: userEmail,
+				url: copiedURL
+			})
+		}).then((response) => {
+			// add response validation
+			alert("Your email was sent!");
+			
+		});
+
+	}
+
+
+	
 	onClickHandler = event => {
 		const buttonID = event.target.id;
 		//copy button
 		if (buttonID === 'copyButton') {
 			//set what you want to copy here
-			let copyContent = "monkeys "
+			let copyContent = hostname + "/" + this.props.urlID;
 			this.copyToClipboard(copyContent);
 			alert("'" + copyContent + "' was copied to the clip board")
 
 		}
 		//download button
 		else if (buttonID === 'downloadButton') {
-			alert("download clicked")
+			window.print();	
 		}
 		//email button
 		else if (buttonID === 'emailButton') {
-			alert("Email clicked")
+			let url = hostname + "/" + this.props.urlID;
+			let inputEmail = window.prompt("Enter your email","");
+			//test for invalid emails
+			if(inputEmail.search("@") === -1 || inputEmail === ""){
+				alert("Invalid Email. Please Try Again.")
+			}else{
+				this.sendEmail(inputEmail, url);
+			}
+
+			
 		}
+
+			
 	}
+	
 
 
 	copyToClipboard = text => {
