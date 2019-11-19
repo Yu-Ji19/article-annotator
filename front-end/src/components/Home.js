@@ -31,8 +31,6 @@ class Home extends Component {
 				original_url: this.state.value
 			})
 		}).then((response) => response.json().then(data => {
-
-				//change route to url_id from response
 				window.location.pathname = data.id;
 			})
 		);

@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import $ from "jquery"
 
 
 import Collaborators from './Collaborators'
@@ -10,6 +11,8 @@ import Website from './Website'
 import AnnotationList from './AnnotationList'
 import NameInput from './NameInput'
 import ColorSelection from "./ColorSelection"
+import PendingAnnotation from "./PendingAnnotation"
+import CreateButton from "./CreateButton"
 
 import rangy from "../util/rangy"
 import req from "../util/req"
@@ -28,7 +31,7 @@ class Workspace extends Component {
 			annotations: null,
 			collaborators: null,
 			nameSet: false,
-			pendingAnnotation: false,
+			pending: false,
 			pendingRange: null,
 			color: "gray"
 		}
@@ -51,7 +54,8 @@ class Workspace extends Component {
 		);
 
 		req.get(hostname + '/api/annotation/all/' + this.state.workspace)
-		.then((response) => response.json().then(data => {
+		.then((response) => response.json()
+		.then(data => {
 			var annotations = data.annotations;
 			annotations.forEach(annotation=>{
 				var range = new Range();
@@ -61,11 +65,20 @@ class Workspace extends Component {
 				range.setEnd(endNode,0);
 				rangy.highlight(range, annotation.color);
 				rangy.addTarget(range, annotation.id);
-				rangy.addClick(range);
+				
 			})
 			this.setState({
 				annotations: annotations.map(v => ({...v, finished: true}))
 			});
+		})
+		.then(()=>{
+			this.state.annotations.forEach((annotation)=>{
+				$("#"+annotation.id).click(this.selectAnnotation);
+			})
+			
+			
+			
+			// rangy.addClick(range);
 		})
 		);
 
@@ -91,7 +104,6 @@ class Workspace extends Component {
 
 
 	createAnnotation(annotation) {
-		
 		var selectedText;
 		var range;
 		if (window.getSelection) { 
@@ -102,22 +114,25 @@ class Workspace extends Component {
 			if(range.collapsed){
 				return;
 			}
+			if(range.commonAncestorContainer.id !== "content"){
+				alert("Illegal Annotation Selection");
+				return;
+			}
 			rangy.highlight(range, this.state.color);
-
+			this.setState({
+				pending:true, 
+				pendingRange:range
+			})
+		}else{
+			alert("No text selected");
 		}
-		//add range validation here
-
-		this.setState({
-			annotations: [...this.state.annotations, annotation],
-			pendingAnnotation:true, 
-			pendingRange:range
-		})
 	}
 
 	finishAnnotation(annotation){
+		console.log(annotation);
 		var range = rangy.compress(this.state.pendingRange);
 		rangy.addTarget(this.state.pendingRange, annotation.id);
-		rangy.addClick(this.state.pendingRange);
+		// rangy.addClick(this.state.pendingRange);
 		fetch(hostname + '/api/annotation/insert', {
 			method: 'POST',
 			headers: {
@@ -126,23 +141,48 @@ class Workspace extends Component {
 			},
 			body: JSON.stringify({
 				...annotation,
-				range
+				range,
+				workspace: this.state.workspace
 			})
 		}).then((response) => {
 			// add response validation
 			var newCollaborators = this.state.collaborators;
 			var collabName = this.state.collabName;
 			newCollaborators[collabName] = !this.state.collaborators || !this.state.collaborators[collabName]? 1: newCollaborators[collabName] + 1;
+			
+			$("#"+annotation.id).click(this.selectAnnotation);
 			this.setState({
-				pendingAnnotation:false,
+				pending:false,
 				collaborators: newCollaborators,
 				pendingRange: null,
+				annotations: [...this.state.annotations, annotation]
 			})
 		});
 		
 	}
 
+	selectAnnotation(){
+		// console.log(this);
+		var selected = this.state.selected;
+		// console.log(selected);
+		if(!selected){
+			$("highlight").removeClass();
+			console.log(this.state.range);
+			rangy.highlight(this.state.range, this.state.color);
+		}else{
+
+		}
+		this.setState({selected: !selected});
+	}
+
 	render() {
+		var pendingAnnotation = this.state.pending? 
+								<PendingAnnotation
+									name={this.state.collabName}
+									finishAnnotation = {this.finishAnnotation}
+									color = {this.state.color}
+									range={this.state.pendingRange}
+								/>:null;
 		
 		return (
 			<Container>
@@ -163,15 +203,14 @@ class Workspace extends Component {
 						<Collaborators 
 							collaborators={this.state.collaborators}
 						/>
+						<CreateButton
+							createAnnotation={this.createAnnotation}
+						/>
 						<AnnotationList 
 							workspace={this.state.workspace} 
-							name={this.state.collabName}
-							createAnnotation = {this.createAnnotation}
-							finishAnnotation = {this.finishAnnotation}
 							annotations = {this.state.annotations}
-							pendingAnnotation = {this.state.pendingAnnotation}
-							color = {this.state.color}
 						/>	
+						{pendingAnnotation}
 					</Col>
 				</Row>
 			</Container>
