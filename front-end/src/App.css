@@ -11,29 +11,36 @@
   margin: 20px;
 }
 
-.highlight-gray {
+.highlight.highlight-gray {
   background-color:rgba(120, 120, 120, 0.5);
 }
 
-.highlight-red {
+.highlight.highlight-red {
   background-color:red;
 }
-.highlight-green {
+.highlight.highlight-green {
   background-color:green;
 }
-.highlight-yellow {
+.highlight.highlight-yellow {
   background-color:yellow;
 }
 
-.highlight-green.highlight-gray{
+.highlight.highlight-green.highlight-gray{
   background-color: #09d3ac;
   
 }
 
-[class^="highlight-"]:hover {
-  cursor: pointer;
+.annotation {
+    border: 2px;
+    border-color: gray;
+    border-style: solid;
+    border-radius: 5px;
+    margin: 2px
 }
 
+.annotation:hover{
+  cursor: pointer;
+}
 .hidden {
   display: none;
 }
