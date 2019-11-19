@@ -13,8 +13,6 @@ class PendingAnnotation extends Component {
 			id: props.id,
 			color:props.color,
 			range:props.range,
-			selected:false
-			// add range here for reverse pointing
 		}
 		this.handleChange = this.handleChange.bind(this);
 		

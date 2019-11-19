@@ -11,12 +11,25 @@
   margin: 20px;
 }
 
+.highlight.selected.selected-red {
+  background-color:red;
+}
+
+.highlight.selected.selected-green {
+  background-color:darkgreen;
+}
+
+.highlight.selected.selected-gray {
+  background-color:gray;
+}
+
+
 .highlight.highlight-gray {
-  background-color:rgba(120, 120, 120, 0.5);
+  background-color:lightgray
 }
 
 .highlight.highlight-red {
-  background-color:red;
+  background-color:pink;
 }
 .highlight.highlight-green {
   background-color:green;
@@ -28,6 +41,10 @@
 .highlight.highlight-green.highlight-gray{
   background-color: #09d3ac;
   
+}
+
+.highlight {
+  transition: background-color 0.5s;
 }
 
 .annotation {
@@ -44,3 +61,5 @@
 .hidden {
   display: none;
 }
+
+

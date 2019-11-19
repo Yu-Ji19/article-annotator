@@ -85,7 +85,24 @@ const rangy = {
                 })
             }
         })
-    }
+    },
+
+    addOverlay: (range, color)=>{
+        var nodes = rangy.getRangeSelectedNodes(range);
+        nodes.forEach(node=>{
+            $(node).addClass("selected");
+            $(node).addClass("selected-"+color);
+        })
+    },
+
+    removeOverlay: (range, color)=>{
+        var nodes = rangy.getRangeSelectedNodes(range);
+        nodes.forEach(node=>{
+            $(node).removeClass("selected");
+            $(node).removeClass("selected-"+color);
+        })
+    },
+
 }
 
 export default rangy;

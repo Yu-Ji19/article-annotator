@@ -16,6 +16,8 @@ class AnnotationList extends Component {
 					name={annotation.name}
 					content={annotation.content}
 					color={annotation.color}
+					range={annotation.range}
+					selectAnnotation={this.props.selectAnnotation}
 				/>
 			)
 		:null;
