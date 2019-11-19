@@ -30,6 +30,8 @@ class Share extends Component {
 		//email button
 		else if (buttonID === 'emailButton') {
 			//window.open('mailto:test@example.com');
+			var name = window.prompt("Enter your email","");
+			console.log(name)
 			alert("Email clicked")
 		}
 	}
