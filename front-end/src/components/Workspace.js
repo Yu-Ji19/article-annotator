@@ -43,6 +43,7 @@ class Workspace extends Component {
 		this.finishAnnotation = this.finishAnnotation.bind(this);
 		this.setColor = this.setColor.bind(this);
 		this.selectAnnotation = this.selectAnnotation.bind(this);
+		this.collapseAnnotation = this.collapseAnnotation.bind(this);
 	}
 
 	componentDidMount() {
@@ -70,7 +71,7 @@ class Workspace extends Component {
 				range.setEnd(endNode,0);
 				rangy.highlight(range, annotation.color);
 				rangy.addTarget(range, annotation.id);
-				
+				annotation.collapsed = false;
 			})
 			this.setState({
 				annotations: annotations.map(v => ({...v, finished: true}))
@@ -180,8 +181,16 @@ class Workspace extends Component {
 			rangy.removeOverlay(selected.range, selected.color);
 			this.setState({selectedAnnotation: null});
 		}
+	}
 
-
+	collapseAnnotation(annotation) {
+		this.setState({annotations: this.state.annotations.map((a) => {
+			if (a.id === annotation.id) {
+				a.collapsed = !a.collapsed;
+			}
+			return a;
+		})})
+		console.log(this.state.annotations);
 	}
 
 	render() {
@@ -223,6 +232,7 @@ class Workspace extends Component {
 							workspace={this.state.workspace} 
 							annotations = {this.state.annotations}
 							selectAnnotation ={this.selectAnnotation}
+							collapseAnnotation = {this.collapseAnnotation}
 						/>	
 						{pendingAnnotation}
 					</Col>
