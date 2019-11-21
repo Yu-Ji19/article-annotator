@@ -48,18 +48,18 @@
 }
 
 .annotation {
-    border: 2px;
+    border: 1px;
     border-color: gray;
     border-style: solid;
-    border-radius: 5px;
-    margin: 2px
+	margin: 2px;
+	padding: 5px;
+	text-align: left;
 }
 
 .annotation:hover{
   cursor: pointer;
 }
+
 .hidden {
   display: none;
 }
-
-
