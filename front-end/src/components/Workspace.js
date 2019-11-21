@@ -191,7 +191,36 @@ class Workspace extends Component {
 				return a;
 			})
 		})
-		console.log(this.state.annotations);
+	}
+
+	renderAllConnections() {
+		this.state.annotations.forEach((a) => {
+			this.renderConnection(a.id);
+		});
+	}
+
+	//getBoundingClientRect() provides coordinates in the viewport
+	//scrolling will change these coordinates!
+	renderConnection(annoId) {
+		var annotation = document.getElementById(annoId);
+		var annoRect = annotation.getBoundingClientRect();
+		var annoX = annoRect.x;
+		var annoY = annoRect.y + (annoRect.height / 2);
+
+		var stateAnno = this.state.annotations.find((a) => a.id == annoId);
+		var startCon = stateAnno.range.startContainer;
+		var startConRect = startCon.getBoundingClientRect();
+		var startConX = startConRect.x + startConRect.width;
+		var startConY = startConRect.y + (startConRect.height / 2);
+
+		console.log(startConX + ", " + startConY + " : " + annoX + ", " + annoY);
+
+		var c = document.getElementById("connCanv");
+		var ctx = c.getContext("2d");
+		ctx.beginPath();
+		ctx.moveTo(startConX, startConY);
+		ctx.lineTo(annoX, annoY);
+		ctx.stroke();
 	}
 
 	render() {
@@ -229,6 +258,7 @@ class Workspace extends Component {
 						<CreateButton
 							createAnnotation={this.createAnnotation}
 						/>
+						<button onClick={() => {this.renderAllConnections()}}>conns</button>
 						<AnnotationList
 							workspace={this.state.workspace}
 							annotations={this.state.annotations}
@@ -238,7 +268,11 @@ class Workspace extends Component {
 						{pendingAnnotation}
 					</Col>
 				</Row>
-				<canvas style={canvasStyle} id="connCanv" />
+				<canvas
+					style={canvasStyle} 
+					id="connCanv"
+					width={window.innerWidth}
+					height={window.innerHeight} />
 			</Container>
 		)
 	}
@@ -248,9 +282,7 @@ const canvasStyle = {
 	position: "absolute",
 	top: "0",
 	left: "0",
-	zIndex: "-100",
-	width: "100%",
-	height: "100%"
+	zIndex: "-100"
 }
 
 export default Workspace

@@ -15,7 +15,6 @@ class Annotation extends Component {
 	}
 
 	render() {
-		console.log(this.state.collapsed);
 		var content = this.state.collapsed ? this.state.content.substr(0,140)+" ..." : this.state.content;
 		return (
 			<Container id={this.state.id} className="annotation" onClick={()=>{this.setState({collapsed: !this.state.collapsed})}}>
