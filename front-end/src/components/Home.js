@@ -39,7 +39,7 @@ class Home extends Component {
 	render() {
 		return (
 			<Container>
-				<InputGroup className="mb-3">
+				<InputGroup style={homeStyle}className="mb-3">
 					<FormControl
 						placeholder="lorem-ipsum.demo"
 						value={this.state.value}
@@ -53,12 +53,20 @@ class Home extends Component {
 							onClick={(e) => this.handleSubmit()}
 						>
 							Annotate
-            </Button>
+            			</Button>
 					</InputGroup.Append>
 				</InputGroup>
 			</Container>
 		)
 	}
+}
+
+const homeStyle = {
+	position: "absolute",
+	left: "50%",
+	top: "50%",
+	transform: "translate(-50%, -50%)",
+	width: "40%"
 }
 
 export default Home
