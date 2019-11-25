@@ -10,14 +10,20 @@ class Annotation extends Component {
 			id: props.id,
 			color: props.color,
 			range: props.range,
-			collapsed: true
+			collapsed: false
 		}
+		this.handleClick = this.handleClick.bind(this);
 	}
 
+	handleClick(){
+		this.setState({collapsed: !this.state.collapsed},()=>{this.props.selectAnnotation(this.state)})
+	}
+
+
 	render() {
-		var content = this.state.collapsed ? this.state.content.substr(0,140)+" ..." : this.state.content;
+		var content = this.state.collapsed && this.state.content.length>140? this.state.content.substr(0,140)+" ..." : this.state.content;
 		return (
-			<Container id={this.state.id} className="annotation" onClick={()=>{this.setState({collapsed: !this.state.collapsed})}}>
+			<Container id={this.state.id} className="annotation" onClick={this.handleClick} style={{backgroundColor: "light"+this.state.color}}>
 				<b className="annotationHeader">{this.state.name}</b><br /> 
 				<span className="annotationContent">{content}</span>
 			</Container>
